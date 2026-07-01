@@ -8,7 +8,6 @@ import {
   Store,
   LogOut,
 } from "lucide-react"
-import { PospicLogo } from "@/components/PospicLogo"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/AuthContext"
 
