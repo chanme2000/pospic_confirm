@@ -56,7 +56,7 @@ export default function StoreHistory() {
     <section aria-labelledby="history-heading">
       <div className="flex items-center gap-2 mb-6">
         <BarChart2 className="h-5 w-5 text-indigo-500" aria-hidden="true" />
-        <h2 id="history-heading" className="text-xl font-bold text-gray-900">
+        <h2 id="history-heading" className="text-2xl font-black text-gray-900 tracking-tight">
           매출 내역
         </h2>
       </div>
@@ -83,35 +83,35 @@ export default function StoreHistory() {
 
       {/* Summary totals */}
       <dl className="grid grid-cols-2 gap-3 mb-6">
-        <Card className="col-span-2">
-          <CardContent className="p-4">
-            <dt className="flex items-center gap-1.5 text-xs font-medium text-gray-500 mb-1">
+        <Card className="col-span-2 border-0 bg-gradient-to-br from-indigo-600 to-indigo-700 shadow-lg shadow-indigo-200">
+          <CardContent className="p-5">
+            <dt className="flex items-center gap-1.5 text-xs font-semibold text-indigo-200 mb-2 uppercase tracking-wider">
               <TrendingUp className="h-3.5 w-3.5" aria-hidden="true" />
               기간 총 매출
             </dt>
-            <dd className="text-3xl font-extrabold text-indigo-600 tracking-tight">
+            <dd className="text-4xl font-black text-white tracking-tight leading-none">
               {totals.total_revenue.toLocaleString()}
-              <span className="text-lg font-bold ml-1">원</span>
+              <span className="text-xl font-bold text-indigo-300 ml-1">원</span>
             </dd>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
-            <dt className="text-xs font-medium text-gray-500 mb-1">총 주문 수</dt>
-            <dd className="text-2xl font-bold text-gray-900">
+            <dt className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">총 주문 수</dt>
+            <dd className="text-3xl font-black text-gray-900 leading-none">
               {totals.order_count}
-              <span className="text-sm font-medium text-gray-500 ml-1">건</span>
+              <span className="text-base font-semibold text-gray-400 ml-1">건</span>
             </dd>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardContent className="p-4">
-            <dt className="text-xs font-medium text-gray-500 mb-1">카드 결제액</dt>
-            <dd className="text-2xl font-bold text-gray-900">
+            <dt className="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-2">카드 결제액</dt>
+            <dd className="text-3xl font-black text-gray-900 leading-none">
               {totals.card_amount.toLocaleString()}
-              <span className="text-sm font-medium text-gray-500 ml-1">원</span>
+              <span className="text-base font-semibold text-gray-400 ml-1">원</span>
             </dd>
           </CardContent>
         </Card>

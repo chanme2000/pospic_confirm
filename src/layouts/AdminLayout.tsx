@@ -34,15 +34,20 @@ export default function AdminLayout() {
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar (desktop) */}
       <aside
-        className="hidden md:flex flex-col w-60 bg-white border-r border-gray-200 min-h-screen flex-shrink-0"
+        className="hidden md:flex flex-col w-60 bg-gray-900 min-h-screen flex-shrink-0"
         aria-label="관리자 사이드바"
       >
         {/* Logo */}
-        <div className="px-5 py-5 border-b border-gray-100">
-          <Link to="/" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-md inline-flex" aria-label="pospic 홈으로 이동">
-            <PospicLogo size="sm" />
+        <div className="px-5 py-5 border-b border-white/10">
+          <Link to="/" className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 rounded-md inline-flex" aria-label="pospic 홈으로 이동">
+            <div className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-indigo-500 rounded-lg flex items-center justify-center flex-shrink-0" aria-hidden="true">
+                <span className="text-white text-xs font-black">P</span>
+              </div>
+              <span className="text-white font-bold text-lg tracking-tight">pospic</span>
+            </div>
           </Link>
-          <p className="text-xs text-gray-400 mt-1 ml-10">관리자</p>
+          <p className="text-xs text-gray-500 mt-1.5 font-medium">어드민 포털</p>
         </div>
 
         {/* Nav */}
@@ -54,10 +59,10 @@ export default function AdminLayout() {
                   to={to}
                   className={({ isActive }) =>
                     cn(
-                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+                      "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50",
                       isActive
-                        ? "bg-indigo-50 text-indigo-700"
-                        : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                        ? "bg-white text-gray-900 font-bold shadow-sm"
+                        : "text-gray-400 hover:bg-white/10 hover:text-white"
                     )
                   }
                   aria-label={label}
@@ -71,11 +76,11 @@ export default function AdminLayout() {
         </nav>
 
         {/* Logout */}
-        <div className="px-3 py-4 border-t border-gray-100">
+        <div className="px-3 py-4 border-t border-white/10">
           <button
             type="button"
             onClick={handleLogout}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-600 hover:bg-gray-100 hover:text-gray-900 w-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500"
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-500 hover:bg-white/10 hover:text-white w-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
             aria-label="로그아웃"
           >
             <LogOut className="h-4 w-4 flex-shrink-0" aria-hidden="true" />
@@ -87,9 +92,9 @@ export default function AdminLayout() {
       {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0 pb-16 md:pb-0">
         {/* Top header */}
-        <header className="bg-white border-b border-gray-200 px-4 md:px-6 py-4 flex items-center justify-between">
+        <header className="bg-white border-b border-gray-100 px-4 md:px-6 py-4 flex items-center justify-between shadow-sm">
           <div>
-            <h1 className="text-base font-semibold text-gray-900">pospic 관리자</h1>
+            <h1 className="text-base font-bold text-gray-900">pospic 관리자</h1>
             {user && <p className="text-xs text-gray-400 leading-tight">{user.name}</p>}
           </div>
           <button

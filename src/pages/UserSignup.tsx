@@ -60,17 +60,17 @@ export default function UserSignup() {
         </div>
 
         <Card className="glass-card shadow-2xl border-white/60">
-          <CardHeader className="pb-4">
-            <CardTitle>회원가입</CardTitle>
-            <CardDescription>무료로 가입하고 포인트를 받아가세요</CardDescription>
+          <CardHeader className="pb-2 pt-6 px-6">
+            <CardTitle className="text-2xl font-black text-gray-900 tracking-tight">회원가입</CardTitle>
+            <CardDescription className="text-sm text-gray-500 mt-1">무료로 가입하고 출력할 때마다 1% 포인트</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="px-6 pb-6">
             <form onSubmit={handleSubmit} noValidate>
-              <fieldset className="space-y-4">
+              <fieldset className="space-y-4 mt-2">
                 <legend className="sr-only">회원가입 정보</legend>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="signup-name" className="text-sm font-medium text-gray-700">
+                  <label htmlFor="signup-name" className="text-sm font-semibold text-gray-700">
                     이름 <span className="text-red-500" aria-hidden="true">*</span>
                   </label>
                   <Input
@@ -82,11 +82,12 @@ export default function UserSignup() {
                     onChange={(e) => setName(e.target.value)}
                     required
                     aria-required="true"
+                    className="h-11 bg-white/80"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="signup-email" className="text-sm font-medium text-gray-700">
+                  <label htmlFor="signup-email" className="text-sm font-semibold text-gray-700">
                     이메일 <span className="text-red-500" aria-hidden="true">*</span>
                   </label>
                   <Input
@@ -101,10 +102,10 @@ export default function UserSignup() {
                     aria-required="true"
                     aria-describedby={emailDup ? "email-dup-msg" : undefined}
                     aria-invalid={emailDup}
-                    className={emailDup ? "border-red-400 focus-visible:ring-red-400" : ""}
+                    className={`h-11 bg-white/80 ${emailDup ? "border-red-400 focus-visible:ring-red-400" : ""}`}
                   />
                   {emailDup && (
-                    <p id="email-dup-msg" className="flex items-center gap-1 text-xs text-red-500" role="alert">
+                    <p id="email-dup-msg" className="flex items-center gap-1.5 text-xs font-medium text-red-600 bg-red-50 rounded-lg px-3 py-2" role="alert">
                       <AlertCircle className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
                       이미 사용 중인 이메일입니다
                     </p>
@@ -112,7 +113,7 @@ export default function UserSignup() {
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="signup-password" className="text-sm font-medium text-gray-700">
+                  <label htmlFor="signup-password" className="text-sm font-semibold text-gray-700">
                     비밀번호 <span className="text-red-500" aria-hidden="true">*</span>
                   </label>
                   <Input
@@ -124,11 +125,12 @@ export default function UserSignup() {
                     onChange={(e) => setPassword(e.target.value)}
                     required
                     aria-required="true"
+                    className="h-11 bg-white/80"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label htmlFor="signup-phone" className="text-sm font-medium text-gray-700">
+                  <label htmlFor="signup-phone" className="text-sm font-semibold text-gray-700">
                     휴대폰 번호 <span className="text-red-500" aria-hidden="true">*</span>
                   </label>
                   <Input
@@ -143,10 +145,10 @@ export default function UserSignup() {
                     aria-required="true"
                     aria-describedby={phoneDup ? "phone-dup-msg" : undefined}
                     aria-invalid={phoneDup}
-                    className={phoneDup ? "border-red-400 focus-visible:ring-red-400" : ""}
+                    className={`h-11 bg-white/80 ${phoneDup ? "border-red-400 focus-visible:ring-red-400" : ""}`}
                   />
                   {phoneDup && (
-                    <p id="phone-dup-msg" className="flex items-center gap-1 text-xs text-red-500" role="alert">
+                    <p id="phone-dup-msg" className="flex items-center gap-1.5 text-xs font-medium text-red-600 bg-red-50 rounded-lg px-3 py-2" role="alert">
                       <AlertCircle className="h-3.5 w-3.5 flex-shrink-0" aria-hidden="true" />
                       이미 가입된 휴대폰 번호입니다
                     </p>
@@ -155,7 +157,7 @@ export default function UserSignup() {
 
                 <Button
                   type="submit"
-                  className="w-full mt-6 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all h-12 text-base font-bold"
+                  className="w-full mt-4 h-12 bg-gray-900 hover:bg-black text-white shadow-lg hover:shadow-xl transition-all text-base font-bold"
                   disabled={isLoading || emailDup || phoneDup}
                   aria-busy={isLoading}
                 >
@@ -168,7 +170,7 @@ export default function UserSignup() {
               이미 계정이 있으신가요?{" "}
               <Link
                 to="/login"
-                className="font-medium text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-sm"
+                className="font-bold text-indigo-600 hover:text-indigo-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-sm"
               >
                 로그인
               </Link>

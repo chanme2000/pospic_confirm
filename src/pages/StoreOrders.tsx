@@ -27,7 +27,7 @@ export default function StoreOrders() {
     <section aria-labelledby="store-orders-heading">
       {/* Title */}
       <div className="flex items-baseline justify-between mb-6 flex-wrap gap-2">
-        <h2 id="store-orders-heading" className="text-xl font-bold text-gray-900">
+        <h2 id="store-orders-heading" className="text-2xl font-black text-gray-900 tracking-tight">
           오늘 출력 현황
         </h2>
         <time
@@ -41,28 +41,28 @@ export default function StoreOrders() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-3 mb-6">
-        <Card>
+        <Card className="border-0 shadow-sm bg-white">
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-gray-900" aria-label={`총 주문 수 ${orders.length}건`}>
+            <p className="text-3xl font-black text-gray-900 leading-none" aria-label={`총 주문 수 ${orders.length}건`}>
               {orders.length}
             </p>
-            <p className="text-xs text-gray-500 mt-0.5">총 주문</p>
+            <p className="text-xs font-semibold text-gray-400 mt-2 uppercase tracking-wide">총 주문</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-0 shadow-sm bg-white">
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-indigo-600" aria-label={`총 결제액 ${totalAmount.toLocaleString()}원`}>
+            <p className="text-3xl font-black text-indigo-600 leading-none" aria-label={`총 결제액 ${totalAmount.toLocaleString()}원`}>
               {totalAmount.toLocaleString()}
             </p>
-            <p className="text-xs text-gray-500 mt-0.5">결제액 (원)</p>
+            <p className="text-xs font-semibold text-gray-400 mt-2 uppercase tracking-wide">결제액(원)</p>
           </CardContent>
         </Card>
-        <Card>
+        <Card className="border-0 shadow-sm bg-white">
           <CardContent className="p-4 text-center">
-            <p className="text-2xl font-bold text-green-600" aria-label={`출력 완료 ${printSuccessCount}건`}>
+            <p className="text-3xl font-black text-emerald-600 leading-none" aria-label={`출력 완료 ${printSuccessCount}건`}>
               {printSuccessCount}
             </p>
-            <p className="text-xs text-gray-500 mt-0.5">출력완료</p>
+            <p className="text-xs font-semibold text-gray-400 mt-2 uppercase tracking-wide">출력완료</p>
           </CardContent>
         </Card>
       </div>

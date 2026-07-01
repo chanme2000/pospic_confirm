@@ -31,18 +31,20 @@ export default function MyPage() {
 
       <main className="max-w-lg mx-auto px-4 py-6 space-y-5">
         {/* Profile card */}
-        <Card>
-          <CardContent className="p-5">
+        <Card className="border-0 bg-gradient-to-br from-gray-900 to-gray-800 shadow-xl overflow-hidden relative">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-8 translate-x-8" aria-hidden="true" />
+          <CardContent className="p-6 relative z-10">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-lg font-bold text-gray-900">{mockUser.name}</p>
-                <p className="text-sm text-gray-500 mt-0.5">{mockUser.email}</p>
+                <p className="text-xs font-semibold text-gray-400 tracking-widest uppercase mb-2">My Account</p>
+                <p className="text-xl font-black text-white leading-tight">{mockUser.name}</p>
+                <p className="text-sm text-gray-400 mt-1">{mockUser.email}</p>
               </div>
               <div className="text-right flex-shrink-0">
-                <p className="text-xs text-gray-400 mb-0.5">보유 포인트</p>
-                <p className="text-2xl font-bold text-indigo-600" aria-label={`보유 포인트 ${mockUser.user_wallet.current_balance.toLocaleString()}P`}>
+                <p className="text-xs font-semibold text-gray-400 mb-1">보유 포인트</p>
+                <p className="text-3xl font-black text-white tracking-tight" aria-label={`보유 포인트 ${mockUser.user_wallet.current_balance.toLocaleString()}P`}>
                   {mockUser.user_wallet.current_balance.toLocaleString()}
-                  <span className="text-base font-semibold ml-0.5">P</span>
+                  <span className="text-lg font-bold text-indigo-400 ml-0.5">P</span>
                 </p>
               </div>
             </div>

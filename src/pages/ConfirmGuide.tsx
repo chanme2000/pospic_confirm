@@ -451,16 +451,20 @@ export default function ConfirmGuide() {
         </div>
 
         {/* 진행률 인디케이터 */}
-        <div className="bg-white/80 border border-gray-100 rounded-2xl p-5 shadow-sm">
-          <div className="flex justify-between items-center mb-2">
+        <div className="bg-white shadow-sm rounded-2xl p-5 border border-gray-100">
+          <div className="flex justify-between items-center mb-3">
             <span className="text-sm font-bold text-gray-900">전체 검토 진행 상태</span>
-            <span className="text-sm font-mono font-bold text-indigo-600">{completedCount} / {items.length} 항목 완료 ({progressPercent}%)</span>
+            <span className="text-sm font-mono font-black text-indigo-600">{completedCount} / {items.length} <span className="font-semibold text-gray-400 text-xs">({progressPercent}%)</span></span>
           </div>
-          <div className="w-full bg-gray-100 rounded-full h-3.5 overflow-hidden">
-            <div 
-              className="bg-gradient-to-r from-indigo-500 to-indigo-600 h-full rounded-full transition-all duration-500 ease-out" 
+          <div className="w-full bg-gray-100 rounded-full h-2.5 overflow-hidden">
+            <div
+              className="bg-gradient-to-r from-indigo-500 to-indigo-600 h-full rounded-full transition-all duration-500 ease-out"
               style={{ width: `${progressPercent}%` }}
             />
+          </div>
+          <div className="flex justify-between text-xs text-gray-400 mt-2">
+            <span>0%</span>
+            <span>100%</span>
           </div>
         </div>
 

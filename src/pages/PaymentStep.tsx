@@ -53,13 +53,13 @@ export default function PaymentStep() {
       <main id="payment-main" className="max-w-md mx-auto px-4 py-6 animate-fade-in-up">
         <StepIndicator currentStep={3} />
 
-        <h1 className="text-xl font-bold text-gray-900 mb-1">결제</h1>
+        <h1 className="text-2xl font-black text-gray-900 mb-1 tracking-tight">결제</h1>
         <p className="text-sm text-gray-500 mb-6">포인트를 사용해 카드 결제 금액을 줄이세요</p>
 
         {/* Order summary */}
-        <Card className="mb-5 glass-card border-white/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <Card className="mb-4 glass-card border-white/50 shadow-md hover:shadow-lg transition-shadow duration-300">
           <CardContent className="p-5">
-            <h2 className="text-sm font-semibold text-gray-700 mb-4">주문 내역</h2>
+            <h2 className="text-xs font-bold text-gray-400 tracking-widest uppercase mb-4">주문 내역</h2>
 
             <div className="space-y-3">
               <div className="flex justify-between items-center text-sm">
@@ -139,14 +139,14 @@ export default function PaymentStep() {
         </Card>
 
         {/* Payment breakdown */}
-        <Card className="mb-4 glass-card border-white/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <Card className="mb-4 glass-card border-white/50 shadow-md hover:shadow-lg transition-shadow duration-300">
           <CardContent className="p-5">
-            <h2 className="text-sm font-semibold text-gray-700 mb-4">결제 내역</h2>
+            <h2 className="text-xs font-bold text-gray-400 tracking-widest uppercase mb-4">결제 내역</h2>
 
             <div className="space-y-3">
               <div className="flex justify-between items-center text-sm">
                 <span className="text-gray-500">포인트 사용</span>
-                <span className="font-medium text-indigo-600">
+                <span className="font-semibold text-indigo-600">
                   -{usedPoints.toLocaleString()}P
                 </span>
               </div>
@@ -154,12 +154,12 @@ export default function PaymentStep() {
               <div className="h-px bg-gray-100" aria-hidden="true" />
 
               <div className="flex justify-between items-center">
-                <span className="text-sm font-semibold text-gray-700 flex items-center gap-1">
+                <span className="text-sm font-bold text-gray-700 flex items-center gap-1.5">
                   <CreditCard className="h-4 w-4" aria-hidden="true" />
                   카드 결제
                 </span>
                 <span
-                  className="text-xl font-bold text-indigo-600"
+                  className="text-2xl font-black text-gray-900 tracking-tight"
                   aria-live="polite"
                   aria-atomic="true"
                   aria-label={`카드 결제 금액 ${cardAmount.toLocaleString()}원`}
@@ -187,7 +187,7 @@ export default function PaymentStep() {
 
         <Button
           onClick={handlePay}
-          className="w-full h-14 text-lg font-bold bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300"
+          className="w-full h-14 text-lg font-black bg-gray-900 hover:bg-black text-white shadow-xl hover:shadow-2xl hover:-translate-y-0.5 transition-all duration-300 tracking-tight"
           aria-label={
             cardAmount > 0
               ? `카드 ${cardAmount.toLocaleString()}원 결제하기`

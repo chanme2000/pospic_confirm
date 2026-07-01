@@ -50,15 +50,15 @@ export default function AdminSettings() {
 
   return (
     <section aria-labelledby="settings-heading">
-      <h2 id="settings-heading" className="text-xl font-bold text-gray-900 mb-6">
+      <h2 id="settings-heading" className="text-2xl font-black text-gray-900 mb-6 tracking-tight">
         시스템 설정
       </h2>
 
       <div className="max-w-lg space-y-4">
         {/* Pricing card */}
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-base">인화 단가 설정</CardTitle>
+            <CardTitle className="text-base font-bold">인화 단가 설정</CardTitle>
             <CardDescription>장당 인화 단가를 설정합니다. 변경 즉시 결제 화면에 반영됩니다.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -90,22 +90,22 @@ export default function AdminSettings() {
 
                 <div
                   id="price-preview"
-                  className="rounded-xl bg-indigo-50 border border-indigo-100 p-4 mb-5"
+                  className="rounded-2xl bg-gray-50 border border-gray-100 p-4 mb-5"
                   aria-live="polite"
                   aria-atomic="true"
                 >
-                  <div className="flex items-center gap-2 mb-2">
-                    <Calculator className="h-4 w-4 text-indigo-500" aria-hidden="true" />
-                    <p className="text-sm font-semibold text-indigo-700">예상 금액 미리보기</p>
+                  <div className="flex items-center gap-2 mb-3">
+                    <Calculator className="h-4 w-4 text-gray-500" aria-hidden="true" />
+                    <p className="text-xs font-bold text-gray-500 uppercase tracking-wider">예상 금액 미리보기</p>
                   </div>
-                  <dl className="space-y-1 text-sm">
-                    <div className="flex justify-between">
-                      <dt className="text-indigo-600">1장 인화 시</dt>
-                      <dd className="font-semibold text-indigo-700">{pricePerSheet.toLocaleString()}원</dd>
+                  <dl className="grid grid-cols-2 gap-3 text-sm">
+                    <div className="bg-white rounded-xl p-3 text-center shadow-sm">
+                      <dt className="text-xs text-gray-400 mb-1">1장 인화</dt>
+                      <dd className="text-xl font-black text-gray-900">{pricePerSheet.toLocaleString()}<span className="text-sm font-semibold text-gray-500 ml-0.5">원</span></dd>
                     </div>
-                    <div className="flex justify-between">
-                      <dt className="text-indigo-600">2장 인화 시</dt>
-                      <dd className="font-bold text-indigo-800 text-base">{preview2sheets.toLocaleString()}원</dd>
+                    <div className="bg-white rounded-xl p-3 text-center shadow-sm">
+                      <dt className="text-xs text-gray-400 mb-1">2장 인화</dt>
+                      <dd className="text-xl font-black text-indigo-700">{preview2sheets.toLocaleString()}<span className="text-sm font-semibold text-indigo-400 ml-0.5">원</span></dd>
                     </div>
                   </dl>
                 </div>
@@ -120,9 +120,9 @@ export default function AdminSettings() {
         </Card>
 
         {/* Reward & point validity card */}
-        <Card>
+        <Card className="border-0 shadow-sm">
           <CardHeader>
-            <CardTitle className="text-base">리워드 및 포인트 설정</CardTitle>
+            <CardTitle className="text-base font-bold">리워드 및 포인트 설정</CardTitle>
             <CardDescription>사용자 출력 적립율, 영업 리워드율, 포인트 유효기간을 설정합니다.</CardDescription>
           </CardHeader>
           <CardContent>

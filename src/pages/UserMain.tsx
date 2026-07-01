@@ -64,39 +64,42 @@ export default function UserMain() {
         </div>
       </header>
 
-      <main id="main-content" className="max-w-md mx-auto px-4 py-6">
-        {/* Print reward banner */}
+      <main id="main-content" className="max-w-md mx-auto px-4 py-8">
+        {/* Hero banner */}
         <section
           aria-label="포인트 적립 안내"
-          className="mb-8 rounded-2xl bg-gradient-to-br from-primary-600 via-primary-500 to-indigo-500 px-5 py-5 text-white shadow-lg shadow-primary-500/30 hover:scale-[1.02] hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
+          className="mb-8 rounded-3xl bg-gradient-to-br from-primary-700 via-primary-600 to-indigo-500 px-6 py-7 text-white shadow-xl shadow-primary-600/25 relative overflow-hidden"
         >
-          <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-700 ease-out origin-center" aria-hidden="true" />
-          <div className="relative z-10 flex items-center gap-3">
-            <div className="flex-shrink-0 w-10 h-10 bg-white/20 rounded-full flex items-center justify-center" aria-hidden="true">
-              <Star className="h-5 w-5 text-white fill-white" />
+          <div className="absolute -top-6 -right-6 w-32 h-32 bg-white/10 rounded-full" aria-hidden="true" />
+          <div className="absolute -bottom-8 -left-4 w-24 h-24 bg-white/5 rounded-full" aria-hidden="true" />
+          <div className="relative z-10">
+            <div className="flex items-center gap-2 mb-3">
+              <div className="w-7 h-7 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0" aria-hidden="true">
+                <Star className="h-3.5 w-3.5 text-white fill-white" />
+              </div>
+              <span className="text-xs font-semibold text-indigo-200 tracking-widest uppercase">Member Benefit</span>
             </div>
-            <div>
-              <p className="text-base font-bold">출력할 때마다 포인트 적립!</p>
-              <p className="text-xs text-indigo-100 mt-0.5">회원은 출력 금액의 1%를 포인트로 돌려받아요</p>
-            </div>
+            <p className="text-xl font-black leading-tight tracking-tight">출력할 때마다<br/>포인트 적립!</p>
+            <p className="text-sm text-indigo-100 mt-2 font-medium">출력 금액의 1%를 자동으로 돌려받아요</p>
           </div>
         </section>
 
         {/* Service cards */}
-        <div className="flex flex-col gap-5 animate-fade-in-up">
-          {/* Guest quick start */}
-          <Card className="glass-card border-2 border-primary-100 hover:border-primary-300 hover:-translate-y-1 hover:shadow-2xl transition-all duration-300">
+        <div className="flex flex-col gap-4 animate-fade-in-up">
+          {/* Guest quick start — Primary CTA */}
+          <Card className="glass-card shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300 border-0">
             <CardContent className="p-6">
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-14 h-14 bg-gradient-to-br from-primary-50 to-primary-100 rounded-2xl flex items-center justify-center shadow-sm" aria-hidden="true">
-                  <Zap className="h-7 w-7 text-primary-600 animate-pulse-soft" />
+                <div className="flex-shrink-0 w-12 h-12 bg-gray-900 rounded-2xl flex items-center justify-center shadow-md" aria-hidden="true">
+                  <Zap className="h-6 w-6 text-white" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-lg font-extrabold text-gray-900">비회원 빠른 시작</h2>
-                  <p className="text-sm text-gray-500 mt-1">가입 없이 바로 사진을 인쇄하세요</p>
+                  <p className="text-xs font-semibold text-gray-400 tracking-widest uppercase mb-1">Quick Start</p>
+                  <h2 className="text-xl font-black text-gray-900 leading-tight">비회원 즉시 인쇄</h2>
+                  <p className="text-sm text-gray-500 mt-1 mb-5">가입 없이 지금 바로 사진을 인쇄하세요</p>
                   <Button
                     asChild
-                    className="mt-5 w-full bg-gray-900 hover:bg-black text-white shadow-lg hover:shadow-xl transition-all"
+                    className="w-full h-12 bg-gray-900 hover:bg-black text-white font-bold text-base shadow-lg hover:shadow-xl transition-all"
                     aria-label="비회원으로 즉시 인쇄 시작"
                   >
                     <Link to="/order/upload">
@@ -109,21 +112,22 @@ export default function UserMain() {
             </CardContent>
           </Card>
 
-          {/* Member service */}
-          <Card className="glass-card hover:-translate-y-1 hover:shadow-xl transition-all duration-300">
+          {/* Member service — Secondary */}
+          <Card className="bg-white/60 backdrop-blur-sm shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-300 border border-gray-100">
             <CardContent className="p-6">
               <div className="flex items-start gap-4">
-                <div className="flex-shrink-0 w-14 h-14 bg-white/80 border border-gray-100 rounded-2xl flex items-center justify-center shadow-sm" aria-hidden="true">
-                  <UserCircle className="h-7 w-7 text-gray-600" />
+                <div className="flex-shrink-0 w-12 h-12 bg-primary-50 rounded-2xl flex items-center justify-center" aria-hidden="true">
+                  <UserCircle className="h-6 w-6 text-primary-600" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-lg font-extrabold text-gray-900">회원 서비스</h2>
-                  <p className="text-sm text-gray-500 mt-1">포인트로 더 저렴하게 인쇄하세요</p>
-                  <div className="mt-5 flex gap-3">
-                    <Button asChild variant="outline" className="flex-1 border-gray-200 hover:bg-gray-50 hover:text-primary-600 transition-colors shadow-sm" aria-label="로그인 페이지로 이동">
+                  <p className="text-xs font-semibold text-primary-400 tracking-widest uppercase mb-1">Member</p>
+                  <h2 className="text-xl font-black text-gray-900 leading-tight">회원 서비스</h2>
+                  <p className="text-sm text-gray-500 mt-1 mb-5">포인트 적립으로 더 저렴하게 인쇄하세요</p>
+                  <div className="flex gap-3">
+                    <Button asChild variant="outline" className="flex-1 h-11 border-gray-200 hover:border-primary-300 hover:text-primary-600 font-semibold transition-colors" aria-label="로그인 페이지로 이동">
                       <Link to="/login">로그인</Link>
                     </Button>
-                    <Button asChild className="flex-1 bg-gradient-to-r from-primary-600 to-primary-500 hover:from-primary-700 hover:to-primary-600 text-white shadow-md hover:shadow-lg transition-all" aria-label="회원가입 페이지로 이동">
+                    <Button asChild className="flex-1 h-11 bg-primary-600 hover:bg-primary-700 text-white font-bold shadow-sm hover:shadow-md transition-all" aria-label="회원가입 페이지로 이동">
                       <Link to="/signup">회원가입</Link>
                     </Button>
                   </div>
@@ -134,14 +138,14 @@ export default function UserMain() {
         </div>
 
         <p className="mt-6 text-center text-xs text-gray-400">
-          비회원도 출력 가능 · 회원은 포인트 적립 혜택 제공
+          비회원도 출력 가능 · 회원은 출력 금액 1% 포인트 적립
         </p>
 
         {/* Admin shortcut */}
         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
           <Link
             to="/admin/login"
-            className="text-xs text-gray-300 hover:text-gray-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-md px-1 transition-colors"
+            className="text-xs text-gray-300 hover:text-gray-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 rounded-md px-1 transition-colors"
             aria-label="운영자 로그인 페이지로 이동"
           >
             운영자 로그인

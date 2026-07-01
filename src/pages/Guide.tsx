@@ -78,15 +78,16 @@ export default function Guide() {
 
       <main className="max-w-md mx-auto px-4 py-8">
         {/* Hero */}
-        <section className="mb-10 text-center" aria-label="가이드 소개">
-          <h1 className="text-2xl font-bold text-gray-900">pospic 사용 가이드</h1>
-          <p className="mt-2 text-sm text-gray-500">QR 코드 하나로 쉽고 빠르게 사진을 인화하세요</p>
+        <section className="mb-10" aria-label="가이드 소개">
+          <p className="text-xs font-semibold text-indigo-500 tracking-widest uppercase mb-2">How It Works</p>
+          <h1 className="text-3xl font-black text-gray-900 leading-tight tracking-tight">pospic<br/>사용 가이드</h1>
+          <p className="mt-3 text-base text-gray-500 leading-relaxed">QR 코드 하나로 쉽고 빠르게<br/>사진을 인화하세요</p>
         </section>
 
         {/* Steps */}
         <section aria-label="이용 순서" className="mb-12">
-          <h2 className="text-base font-semibold text-gray-700 mb-5">이용 순서</h2>
-          <ol className="space-y-4" role="list">
+          <h2 className="text-sm font-bold text-gray-400 tracking-widest uppercase mb-6">이용 순서</h2>
+          <ol className="space-y-0" role="list">
             {STEPS.map((step, i) => {
               const Icon = step.icon
               const isLast = i === STEPS.length - 1
@@ -95,19 +96,21 @@ export default function Guide() {
                   {/* connector line */}
                   {!isLast && (
                     <div
-                      className="absolute left-[19px] top-10 w-px h-[calc(100%+4px)] bg-indigo-100"
+                      className="absolute left-[19px] top-11 w-0.5 h-[calc(100%-8px)] bg-gradient-to-b from-indigo-200 to-transparent"
                       aria-hidden="true"
                     />
                   )}
-                  {/* icon */}
-                  <div className="flex-shrink-0 w-10 h-10 rounded-full bg-indigo-600 flex items-center justify-center shadow-md shadow-indigo-200 z-10" aria-hidden="true">
-                    <Icon className="h-5 w-5 text-white" />
+                  {/* icon badge */}
+                  <div className="flex-shrink-0 flex flex-col items-center">
+                    <div className="w-10 h-10 rounded-2xl bg-indigo-600 flex items-center justify-center shadow-md shadow-indigo-200 z-10" aria-hidden="true">
+                      <Icon className="h-5 w-5 text-white" />
+                    </div>
                   </div>
                   {/* content */}
-                  <div className="flex-1 pb-2">
-                    <p className="text-xs font-semibold text-indigo-500 mb-0.5">STEP {step.number}</p>
-                    <h3 className="text-sm font-bold text-gray-900">{step.title}</h3>
-                    <p className="mt-1 text-sm text-gray-500 leading-relaxed">{step.desc}</p>
+                  <div className="flex-1 pb-8">
+                    <p className="text-[10px] font-black text-indigo-400 tracking-widest uppercase mb-1">STEP {step.number}</p>
+                    <h3 className="text-base font-bold text-gray-900 leading-tight">{step.title}</h3>
+                    <p className="mt-1.5 text-sm text-gray-500 leading-relaxed">{step.desc}</p>
                   </div>
                 </li>
               )
@@ -117,29 +120,29 @@ export default function Guide() {
 
         {/* FAQ */}
         <section aria-label="자주 묻는 질문" className="mb-10">
-          <h2 className="text-base font-semibold text-gray-700 mb-5 flex items-center gap-2">
-            <HelpCircle className="h-4 w-4 text-indigo-500" aria-hidden="true" />
+          <h2 className="text-sm font-bold text-gray-400 tracking-widest uppercase mb-6 flex items-center gap-2">
+            <HelpCircle className="h-4 w-4" aria-hidden="true" />
             자주 묻는 질문
           </h2>
-          <dl className="space-y-4">
+          <dl className="space-y-3">
             {FAQS.map((faq) => (
-              <div key={faq.q} className="bg-white rounded-xl p-4 border border-gray-100">
-                <dt className="text-sm font-semibold text-gray-900">Q. {faq.q}</dt>
-                <dd className="mt-1.5 text-sm text-gray-500 leading-relaxed">A. {faq.a}</dd>
+              <div key={faq.q} className="bg-white rounded-2xl p-5 shadow-sm border-0 hover:shadow-md transition-shadow duration-200">
+                <dt className="text-sm font-bold text-gray-900 leading-snug">{faq.q}</dt>
+                <dd className="mt-2 text-sm text-gray-500 leading-relaxed">{faq.a}</dd>
               </div>
             ))}
           </dl>
         </section>
 
         {/* CTA */}
-        <section aria-label="서비스 시작" className="flex flex-col gap-3">
-          <Button asChild className="w-full" aria-label="비회원으로 즉시 인쇄 시작">
+        <section aria-label="서비스 시작" className="flex flex-col gap-3 pb-8">
+          <Button asChild className="w-full h-12 text-base font-bold bg-gray-900 hover:bg-black text-white shadow-lg hover:shadow-xl transition-all" aria-label="비회원으로 즉시 인쇄 시작">
             <Link to="/order/upload">
               지금 바로 인쇄하기
-              <ChevronRight className="h-4 w-4" aria-hidden="true" />
+              <ChevronRight className="h-4 w-4 ml-1" aria-hidden="true" />
             </Link>
           </Button>
-          <Button asChild variant="outline" className="w-full">
+          <Button asChild variant="outline" className="w-full h-11 border-gray-200 hover:border-indigo-300 hover:text-indigo-600 font-semibold transition-colors">
             <Link to="/signup">회원가입하고 포인트 적립하기</Link>
           </Button>
         </section>

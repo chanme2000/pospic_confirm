@@ -109,12 +109,12 @@ export default function UploadStep() {
       <main id="upload-main" className="max-w-md mx-auto px-4 py-6">
         <StepIndicator currentStep={1} />
 
-        <h1 className="text-xl font-bold text-gray-900 mb-1">사진 선택</h1>
-        <p className="text-sm text-gray-500 mb-5">인쇄할 사진 장수를 먼저 선택하세요</p>
+        <h1 className="text-2xl font-black text-gray-900 mb-1 tracking-tight">사진 선택</h1>
+        <p className="text-sm text-gray-500 mb-6">인쇄할 장수를 먼저 고른 뒤 사진을 올려주세요</p>
 
         {/* 장수 선택 */}
-        <div className="mb-5">
-          <p className="text-sm font-semibold text-gray-700 mb-2">인쇄 장수</p>
+        <div className="mb-6">
+          <p className="text-xs font-bold text-gray-400 tracking-widest uppercase mb-3">인쇄 장수</p>
           <div
             role="group"
             aria-label="인쇄 장수 선택"
@@ -127,28 +127,28 @@ export default function UploadStep() {
                 onClick={() => handlePhotoCountChange(count)}
                 aria-pressed={photoCount === count}
                 className={cn(
-                  "rounded-xl border-2 px-4 py-3 text-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+                  "rounded-2xl border-2 px-4 py-5 text-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 min-h-[80px]",
                   photoCount === count
-                    ? "border-indigo-500 bg-indigo-50"
-                    : "border-gray-200 bg-white hover:border-indigo-200 hover:bg-gray-50"
+                    ? "border-gray-900 bg-gray-900 shadow-lg"
+                    : "border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm"
                 )}
               >
                 <p className={cn(
-                  "text-xl font-black",
-                  photoCount === count ? "text-indigo-700" : "text-gray-700"
+                  "text-2xl font-black leading-tight",
+                  photoCount === count ? "text-white" : "text-gray-800"
                 )}>
                   {count}장
                 </p>
                 <p className={cn(
-                  "text-xs mt-0.5",
-                  photoCount === count ? "text-indigo-500 font-semibold" : "text-gray-400"
+                  "text-sm font-bold mt-1",
+                  photoCount === count ? "text-gray-300" : "text-gray-400"
                 )}>
                   {(mockSystemSettings.price_per_sheet * count).toLocaleString()}원
                 </p>
               </button>
             ))}
           </div>
-          <p className="text-xs text-gray-400 mt-2 text-right">
+          <p className="text-xs text-gray-400 mt-2.5 text-right">
             장당 {mockSystemSettings.price_per_sheet.toLocaleString()}원 · 출력 후 금액의 1% 포인트 적립
           </p>
         </div>
@@ -170,12 +170,12 @@ export default function UploadStep() {
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           className={cn(
-            "relative rounded-xl border-2 border-dashed p-8 text-center transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+            "relative rounded-2xl border-2 border-dashed py-10 px-6 text-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
             isDragging
-              ? "border-indigo-400 bg-indigo-50"
+              ? "border-indigo-400 bg-indigo-50 scale-[1.01]"
               : isMaxReached
               ? "border-gray-200 bg-gray-50 cursor-not-allowed"
-              : "border-gray-300 bg-white cursor-pointer hover:border-indigo-400 hover:bg-indigo-50"
+              : "border-gray-300 bg-white cursor-pointer hover:border-indigo-300 hover:bg-indigo-50/50"
           )}
         >
           <input
@@ -188,25 +188,25 @@ export default function UploadStep() {
             aria-hidden="true"
             tabIndex={-1}
           />
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-3">
             <div className={cn(
-              "w-14 h-14 rounded-2xl flex items-center justify-center",
-              isMaxReached ? "bg-gray-100" : "bg-indigo-50"
+              "w-16 h-16 rounded-2xl flex items-center justify-center shadow-sm",
+              isMaxReached ? "bg-gray-100" : isDragging ? "bg-indigo-100" : "bg-indigo-50"
             )} aria-hidden="true">
               {isMaxReached
-                ? <Image className="h-7 w-7 text-gray-400" />
-                : <Upload className="h-7 w-7 text-indigo-500" />
+                ? <Image className="h-8 w-8 text-gray-400" />
+                : <Upload className="h-8 w-8 text-indigo-500" />
               }
             </div>
             <div>
               <p className={cn(
-                "text-sm font-semibold",
-                isMaxReached ? "text-gray-400" : "text-gray-700"
+                "text-base font-bold",
+                isMaxReached ? "text-gray-400" : "text-gray-800"
               )}>
-                {isMaxReached ? "선택 완료" : "클릭하거나 파일을 끌어다 놓으세요"}
+                {isMaxReached ? "사진 선택 완료" : "클릭하거나 파일을 끌어다 놓으세요"}
               </p>
-              <p className="text-xs text-gray-400 mt-0.5">
-                JPG, PNG, HEIC · {previews.length}/{maxFiles}장 선택됨
+              <p className="text-sm text-gray-400 mt-1">
+                JPG, PNG, HEIC · <span className="font-semibold text-gray-600">{previews.length}/{maxFiles}장</span> 선택됨
               </p>
             </div>
           </div>
@@ -240,7 +240,7 @@ export default function UploadStep() {
 
         <Button
           onClick={handleNext}
-          className="mt-6 w-full h-12 text-base font-bold"
+          className="mt-6 w-full h-13 min-h-[52px] text-base font-bold bg-gray-900 hover:bg-black text-white shadow-lg hover:shadow-xl transition-all"
           disabled={previews.length === 0}
           aria-label={`다음 단계: ${photoCount}장 인쇄 ${price.toLocaleString()}원 미리보기로 이동`}
         >
