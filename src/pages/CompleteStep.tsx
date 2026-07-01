@@ -1,12 +1,15 @@
-import { Link } from "react-router-dom"
-import { CheckCircle, Printer, Home, ClipboardList } from "lucide-react"
+import { useLocation, Link } from "react-router-dom"
+import { CheckCircle, Printer, Home, ClipboardList, Gift } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 
-// Phase 0: mock — in a real app this would come from auth context
 const IS_MEMBER = true
 
 export default function CompleteStep() {
+  const location = useLocation()
+  const printReward: number = location.state?.printReward ?? 0
+  const totalAmount: number = location.state?.totalAmount ?? 0
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-sm">
@@ -42,6 +45,12 @@ export default function CompleteStep() {
                   <dt className="text-gray-500">주문 번호</dt>
                   <dd className="font-semibold text-gray-900 font-mono">#order-001</dd>
                 </div>
+                {totalAmount > 0 && (
+                  <div className="flex justify-between items-center text-sm">
+                    <dt className="text-gray-500">결제 금액</dt>
+                    <dd className="font-semibold text-gray-900">{totalAmount.toLocaleString()}원</dd>
+                  </div>
+                )}
                 <div className="flex justify-between items-center text-sm">
                   <dt className="text-gray-500">예상 대기시간</dt>
                   <dd className="font-medium text-gray-900">약 1~2분</dd>
@@ -58,6 +67,19 @@ export default function CompleteStep() {
               </dl>
             </CardContent>
           </Card>
+
+          {/* 출력 적립 포인트 */}
+          {IS_MEMBER && printReward > 0 && (
+            <div className="mb-4 flex items-center gap-3 rounded-xl bg-emerald-50 border border-emerald-100 px-4 py-3">
+              <Gift className="h-5 w-5 text-emerald-500 flex-shrink-0" aria-hidden="true" />
+              <div>
+                <p className="text-sm font-bold text-emerald-800">
+                  {printReward}P 적립 완료!
+                </p>
+                <p className="text-xs text-emerald-600 mt-0.5">출력 금액의 1%가 포인트로 적립되었습니다</p>
+              </div>
+            </div>
+          )}
 
           <div className="flex flex-col gap-3">
             <Button asChild className="w-full">

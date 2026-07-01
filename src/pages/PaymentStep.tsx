@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { CreditCard, Coins, Info } from "lucide-react"
+import { useNavigate, useLocation } from "react-router-dom"
+import { CreditCard, Coins, Gift } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent } from "@/components/ui/card"
@@ -10,15 +10,17 @@ import { mockUser, mockSystemSettings } from "@/mocks"
 
 export default function PaymentStep() {
   const navigate = useNavigate()
-  const photoCount = 2
-  const totalAmount = mockSystemSettings.price_per_sheet * photoCount // 3000
-  const availablePoints = mockUser.user_wallet.current_balance // 3000
+  const location = useLocation()
+  const photoCount: number = location.state?.photoCount ?? 2
+
+  const totalAmount = mockSystemSettings.price_per_sheet * photoCount
+  const availablePoints = mockUser.user_wallet.current_balance
   const maxSlider = Math.min(availablePoints, totalAmount)
+  const printReward = Math.floor(totalAmount * (mockSystemSettings.user_print_reward_rate / 100))
 
   const [pointInput, setPointInput] = useState(0)
   const usedPoints = Math.min(pointInput, availablePoints, totalAmount)
   const cardAmount = Math.max(0, totalAmount - usedPoints)
-  const salesReward = Math.floor(cardAmount * 0.1)
 
   function handleSliderChange(e: React.ChangeEvent<HTMLInputElement>) {
     setPointInput(Number(e.target.value))
@@ -30,7 +32,7 @@ export default function PaymentStep() {
   }
 
   function handlePay() {
-    navigate("/order/complete")
+    navigate("/order/complete", { state: { totalAmount, printReward } })
   }
 
   return (
@@ -92,7 +94,7 @@ export default function PaymentStep() {
                     type="range"
                     min={0}
                     max={maxSlider}
-                    step={100}
+                    step={1}
                     value={pointInput}
                     onChange={handleSliderChange}
                     className="flex-1 h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-indigo-600"
@@ -137,7 +139,7 @@ export default function PaymentStep() {
         </Card>
 
         {/* Payment breakdown */}
-        <Card className="mb-6 glass-card border-white/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <Card className="mb-4 glass-card border-white/50 shadow-lg hover:shadow-xl transition-shadow duration-300">
           <CardContent className="p-5">
             <h2 className="text-sm font-semibold text-gray-700 mb-4">결제 내역</h2>
 
@@ -169,25 +171,18 @@ export default function PaymentStep() {
           </CardContent>
         </Card>
 
-        {/* Reward notice */}
-        {cardAmount > 0 ? (
-          <p
-            className="text-xs text-gray-400 flex items-start gap-1.5 mb-6 px-1"
-            role="note"
+        {/* Print reward notice */}
+        {printReward > 0 && (
+          <div
+            className="mb-6 flex items-center gap-2.5 rounded-xl bg-emerald-50 border border-emerald-100 px-4 py-3"
             aria-live="polite"
           >
-            <Info className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" aria-hidden="true" />
-            인쇄 완료 즉시 담당 영업사원에게 카드 결제 금액의 10% ({salesReward.toLocaleString()}P)가 리워드로 적립됩니다
-          </p>
-        ) : (
-          <p
-            className="text-xs text-amber-600 flex items-start gap-1.5 mb-6 px-1 bg-amber-50 rounded-lg p-3"
-            role="note"
-            aria-live="polite"
-          >
-            <Info className="h-3.5 w-3.5 flex-shrink-0 mt-0.5" aria-hidden="true" />
-            전액 포인트 결제 — 카드 결제가 없어 영업사원 리워드는 0P입니다
-          </p>
+            <Gift className="h-4 w-4 text-emerald-500 flex-shrink-0" aria-hidden="true" />
+            <p className="text-xs text-emerald-700">
+              출력 완료 후 <strong className="font-bold">{printReward}P</strong>가 자동 적립됩니다
+              <span className="text-emerald-500 ml-1">(출력 금액의 1%)</span>
+            </p>
+          </div>
         )}
 
         <Button

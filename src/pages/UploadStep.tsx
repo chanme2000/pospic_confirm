@@ -1,11 +1,12 @@
 import { useState, useRef, useCallback } from "react"
 import { useNavigate } from "react-router-dom"
-import { Upload, X, Image, Star } from "lucide-react"
+import { Upload, X, Image } from "lucide-react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { StepIndicator } from "@/components/StepIndicator"
 import { PospicLogo } from "@/components/PospicLogo"
 import { cn } from "@/lib/utils"
+import { mockSystemSettings } from "@/mocks"
 
 interface PreviewFile {
   id: string
@@ -13,19 +14,20 @@ interface PreviewFile {
   name: string
 }
 
-const MAX_FILES = 2
-
 export default function UploadStep() {
   const navigate = useNavigate()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [photoCount, setPhotoCount] = useState<1 | 2>(2)
   const [previews, setPreviews] = useState<PreviewFile[]>([])
   const [isDragging, setIsDragging] = useState(false)
 
+  const maxFiles = photoCount
+
   const addFiles = useCallback((files: FileList | null) => {
     if (!files) return
-    const remaining = MAX_FILES - previews.length
+    const remaining = maxFiles - previews.length
     if (remaining <= 0) {
-      toast.error(`최대 ${MAX_FILES}장까지만 업로드할 수 있습니다`)
+      toast.error(`최대 ${maxFiles}장까지만 업로드할 수 있습니다`)
       return
     }
     const accepted = Array.from(files)
@@ -42,7 +44,17 @@ export default function UploadStep() {
       name: file.name,
     }))
     setPreviews((prev) => [...prev, ...newPreviews])
-  }, [previews.length])
+  }, [previews.length, maxFiles])
+
+  function handlePhotoCountChange(count: 1 | 2) {
+    setPhotoCount(count)
+    // 선택 장수보다 많이 업로드된 경우 초과분 제거
+    if (previews.length > count) {
+      const removed = previews.slice(count)
+      removed.forEach((p) => URL.revokeObjectURL(p.url))
+      setPreviews((prev) => prev.slice(0, count))
+    }
+  }
 
   function removeFile(id: string) {
     setPreviews((prev) => {
@@ -70,13 +82,14 @@ export default function UploadStep() {
 
   function handleNext() {
     if (previews.length === 0) {
-      toast.error("사진을 1장 이상 선택해주세요")
+      toast.error("사진을 선택해주세요")
       return
     }
-    navigate("/order/edit", { state: { previews } })
+    navigate("/order/edit", { state: { previews, photoCount } })
   }
 
-  const isMaxReached = previews.length >= MAX_FILES
+  const isMaxReached = previews.length >= maxFiles
+  const price = mockSystemSettings.price_per_sheet * photoCount
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -97,18 +110,46 @@ export default function UploadStep() {
         <StepIndicator currentStep={1} />
 
         <h1 className="text-xl font-bold text-gray-900 mb-1">사진 선택</h1>
-        <p className="text-sm text-gray-500 mb-6">인쇄할 사진을 최대 2장 선택하세요</p>
+        <p className="text-sm text-gray-500 mb-5">인쇄할 사진 장수를 먼저 선택하세요</p>
 
-        {/* Guest welcome bonus notice */}
-        <div
-          aria-label="가입 혜택 안내"
-          className="mb-5 rounded-xl bg-indigo-50 border border-indigo-100 px-4 py-3 flex items-center gap-3"
-        >
-          <Star className="h-5 w-5 text-indigo-500 flex-shrink-0" aria-hidden="true" />
-          <p className="text-sm text-indigo-700">
-            <strong>지금 가입하면 3,000P로 무료 인쇄 가능!</strong>
-            <br />
-            <span className="text-xs text-indigo-500">포인트로 카드 결제 없이 인쇄하세요</span>
+        {/* 장수 선택 */}
+        <div className="mb-5">
+          <p className="text-sm font-semibold text-gray-700 mb-2">인쇄 장수</p>
+          <div
+            role="group"
+            aria-label="인쇄 장수 선택"
+            className="grid grid-cols-2 gap-3"
+          >
+            {([1, 2] as const).map((count) => (
+              <button
+                key={count}
+                type="button"
+                onClick={() => handlePhotoCountChange(count)}
+                aria-pressed={photoCount === count}
+                className={cn(
+                  "rounded-xl border-2 px-4 py-3 text-center transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500",
+                  photoCount === count
+                    ? "border-indigo-500 bg-indigo-50"
+                    : "border-gray-200 bg-white hover:border-indigo-200 hover:bg-gray-50"
+                )}
+              >
+                <p className={cn(
+                  "text-xl font-black",
+                  photoCount === count ? "text-indigo-700" : "text-gray-700"
+                )}>
+                  {count}장
+                </p>
+                <p className={cn(
+                  "text-xs mt-0.5",
+                  photoCount === count ? "text-indigo-500 font-semibold" : "text-gray-400"
+                )}>
+                  {(mockSystemSettings.price_per_sheet * count).toLocaleString()}원
+                </p>
+              </button>
+            ))}
+          </div>
+          <p className="text-xs text-gray-400 mt-2 text-right">
+            장당 {mockSystemSettings.price_per_sheet.toLocaleString()}원 · 출력 후 금액의 1% 포인트 적립
           </p>
         </div>
 
@@ -116,7 +157,7 @@ export default function UploadStep() {
         <div
           role="button"
           tabIndex={0}
-          aria-label="사진 업로드 영역. 클릭하거나 파일을 끌어다 놓으세요"
+          aria-label={`사진 업로드 영역. 클릭하거나 파일을 끌어다 놓으세요. ${photoCount}장 선택 가능`}
           aria-disabled={isMaxReached}
           onClick={() => !isMaxReached && fileInputRef.current?.click()}
           onKeyDown={(e) => {
@@ -162,10 +203,10 @@ export default function UploadStep() {
                 "text-sm font-semibold",
                 isMaxReached ? "text-gray-400" : "text-gray-700"
               )}>
-                {isMaxReached ? "최대 장수에 도달했습니다" : "클릭하거나 파일을 끌어다 놓으세요"}
+                {isMaxReached ? "선택 완료" : "클릭하거나 파일을 끌어다 놓으세요"}
               </p>
               <p className="text-xs text-gray-400 mt-0.5">
-                JPG, PNG, HEIC · 최대 2장 · {previews.length}/{MAX_FILES}장 선택됨
+                JPG, PNG, HEIC · {previews.length}/{maxFiles}장 선택됨
               </p>
             </div>
           </div>
@@ -174,7 +215,7 @@ export default function UploadStep() {
         {/* Previews */}
         {previews.length > 0 && (
           <section aria-label="선택된 사진 목록" className="mt-4">
-            <div className="grid grid-cols-2 gap-3">
+            <div className={cn("grid gap-3", photoCount === 2 ? "grid-cols-2" : "grid-cols-1")}>
               {previews.map((preview) => (
                 <div key={preview.id} className="relative group rounded-xl overflow-hidden bg-gray-100 aspect-square">
                   <img
@@ -199,11 +240,11 @@ export default function UploadStep() {
 
         <Button
           onClick={handleNext}
-          className="mt-6 w-full"
+          className="mt-6 w-full h-12 text-base font-bold"
           disabled={previews.length === 0}
-          aria-label="다음 단계: 인쇄 미리보기로 이동"
+          aria-label={`다음 단계: ${photoCount}장 인쇄 ${price.toLocaleString()}원 미리보기로 이동`}
         >
-          미리보기 확인 →
+          미리보기 확인 ({price.toLocaleString()}원) →
         </Button>
       </main>
     </div>

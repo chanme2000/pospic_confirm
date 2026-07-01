@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { toast } from "sonner"
-import { Wallet, Users, Award, Copy, ChevronRight } from "lucide-react"
+import { Wallet, Store, Award, Copy, ChevronRight } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -56,16 +56,16 @@ export default function SalesDashboard() {
           </CardContent>
         </Card>
 
-        {/* 연결 회원 수 */}
+        {/* 담당 가맹점 */}
         <Card>
           <CardContent className="p-4">
             <dt className="flex items-center gap-1.5 text-xs font-medium text-gray-500 mb-1">
-              <Users className="h-3.5 w-3.5" aria-hidden="true" />
-              연결 회원 수
+              <Store className="h-3.5 w-3.5" aria-hidden="true" />
+              담당 가맹점
             </dt>
             <dd className="text-2xl font-bold text-gray-900">
-              {mockSalesPerson.linked_users}
-              <span className="text-sm font-medium text-gray-500 ml-1">명</span>
+              {mockSalesPerson.linked_stores}
+              <span className="text-sm font-medium text-gray-500 ml-1">곳</span>
             </dd>
           </CardContent>
         </Card>

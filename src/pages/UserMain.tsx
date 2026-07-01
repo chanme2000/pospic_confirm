@@ -65,9 +65,9 @@ export default function UserMain() {
       </header>
 
       <main id="main-content" className="max-w-md mx-auto px-4 py-6">
-        {/* Welcome bonus banner */}
+        {/* Print reward banner */}
         <section
-          aria-label="가입 혜택 안내"
+          aria-label="포인트 적립 안내"
           className="mb-8 rounded-2xl bg-gradient-to-br from-primary-600 via-primary-500 to-indigo-500 px-5 py-5 text-white shadow-lg shadow-primary-500/30 hover:scale-[1.02] hover:shadow-xl transition-all duration-300 relative overflow-hidden group"
         >
           <div className="absolute inset-0 bg-white/20 blur-3xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-700 ease-out origin-center" aria-hidden="true" />
@@ -76,8 +76,8 @@ export default function UserMain() {
               <Star className="h-5 w-5 text-white fill-white" />
             </div>
             <div>
-              <p className="text-base font-bold">지금 가입하면 3,000P 즉시 지급!</p>
-              <p className="text-xs text-indigo-100 mt-0.5">사진 2장을 무료로 인쇄하세요</p>
+              <p className="text-base font-bold">출력할 때마다 포인트 적립!</p>
+              <p className="text-xs text-indigo-100 mt-0.5">회원은 출력 금액의 1%를 포인트로 돌려받아요</p>
             </div>
           </div>
         </section>
@@ -133,9 +133,8 @@ export default function UserMain() {
           </Card>
         </div>
 
-        {/* Sales referral notice */}
         <p className="mt-6 text-center text-xs text-gray-400">
-          영업사원 QR로 가입하면 추가 혜택이 제공됩니다
+          비회원도 출력 가능 · 회원은 포인트 적립 혜택 제공
         </p>
 
         {/* Admin shortcut */}

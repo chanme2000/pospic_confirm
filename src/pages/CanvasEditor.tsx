@@ -16,10 +16,14 @@ export default function CanvasEditor() {
   const navigate = useNavigate()
   const location = useLocation()
   const previews: PreviewFile[] = location.state?.previews ?? []
+  const photoCount: 1 | 2 = location.state?.photoCount ?? 2
 
-  // 1장 업로드 시 동일 사진으로 2컷 채움
   const photo1 = previews[0] ?? null
-  const photo2 = previews[1] ?? previews[0] ?? null
+  const photo2 = previews[1] ?? (photoCount === 2 ? previews[0] ?? null : null)
+
+  const cuts = photoCount === 1
+    ? [{ photo: photo1, label: "컷 1" }]
+    : [{ photo: photo1, label: "컷 1" }, { photo: photo2, label: "컷 2" }]
 
   const [captions, setCaptions] = useState(["", ""])
 
@@ -59,16 +63,13 @@ export default function CanvasEditor() {
           <div
             className="w-full rounded-xl overflow-hidden shadow-inner"
             style={{
-              aspectRatio: "6/4",
+              aspectRatio: photoCount === 1 ? "3/4" : "6/4",
               background: "linear-gradient(135deg, #e8e0d4 0%, #d6cdc2 100%)",
               padding: "5%",
             }}
           >
             <div className="flex h-full gap-[4%]">
-              {[
-                { photo: photo1, caption: captions[0], label: "컷 1" },
-                { photo: photo2, caption: captions[1], label: "컷 2" },
-              ].map((cut, i) => (
+              {cuts.map((cut, i) => (
                 <div
                   key={i}
                   className="flex-1 flex flex-col bg-white rounded-sm overflow-hidden"
@@ -105,13 +106,13 @@ export default function CanvasEditor() {
                     className="flex items-center justify-center px-1"
                     style={{ height: "22%", minHeight: "28px" }}
                   >
-                    {cut.caption ? (
+                    {captions[i] ? (
                       <p
                         className="text-center font-medium text-gray-700 leading-tight truncate w-full"
                         style={{ fontSize: "clamp(8px, 2.5vw, 11px)" }}
-                        aria-label={`${cut.label} 캡션: ${cut.caption}`}
+                        aria-label={`${cut.label} 캡션: ${captions[i]}`}
                       >
-                        {cut.caption}
+                        {captions[i]}
                       </p>
                     ) : (
                       <p
@@ -128,9 +129,8 @@ export default function CanvasEditor() {
             </div>
           </div>
 
-          {/* 인화지 규격 안내 */}
           <p className="text-center text-xs text-gray-400 mt-2" aria-hidden="true">
-            6×4 인화지 (15×10cm) · 폴라로이드 2컷
+            6×4 인화지 (15×10cm) · 폴라로이드 {photoCount}컷
           </p>
         </section>
 
@@ -138,53 +138,35 @@ export default function CanvasEditor() {
         <section aria-label="폴라로이드 문구 입력" className="mt-5 space-y-3">
           <h2 className="text-sm font-semibold text-gray-700">폴라로이드 문구</h2>
 
-          <div>
-            <label
-              htmlFor="caption-1"
-              className="block text-xs font-medium text-gray-500 mb-1"
-            >
-              컷 1 문구
-            </label>
-            <Input
-              id="caption-1"
-              value={captions[0]}
-              onChange={(e) => updateCaption(0, e.target.value)}
-              placeholder="예) 2026.06.18 우리의 날 ✨"
-              maxLength={20}
-              aria-describedby="caption-1-hint"
-            />
-            <p id="caption-1-hint" className="mt-1 text-right text-xs text-gray-400">
-              {captions[0].length}/20
-            </p>
-          </div>
-
-          <div>
-            <label
-              htmlFor="caption-2"
-              className="block text-xs font-medium text-gray-500 mb-1"
-            >
-              컷 2 문구
-            </label>
-            <Input
-              id="caption-2"
-              value={captions[1]}
-              onChange={(e) => updateCaption(1, e.target.value)}
-              placeholder="예) 소중한 추억 🎞️"
-              maxLength={20}
-              aria-describedby="caption-2-hint"
-            />
-            <p id="caption-2-hint" className="mt-1 text-right text-xs text-gray-400">
-              {captions[1].length}/20
-            </p>
-          </div>
+          {cuts.map((cut, i) => (
+            <div key={i}>
+              <label
+                htmlFor={`caption-${i + 1}`}
+                className="block text-xs font-medium text-gray-500 mb-1"
+              >
+                {cut.label} 문구
+              </label>
+              <Input
+                id={`caption-${i + 1}`}
+                value={captions[i]}
+                onChange={(e) => updateCaption(i, e.target.value)}
+                placeholder={i === 0 ? "예) 2026.06.18 우리의 날 ✨" : "예) 소중한 추억 🎞️"}
+                maxLength={20}
+                aria-describedby={`caption-${i + 1}-hint`}
+              />
+              <p id={`caption-${i + 1}-hint`} className="mt-1 text-right text-xs text-gray-400">
+                {captions[i].length}/20
+              </p>
+            </div>
+          ))}
         </section>
 
-        {/* 1장 업로드 안내 */}
-        {previews.length === 1 && (
+        {/* 2장 선택 시 사진 1장만 업로드한 경우 안내 */}
+        {photoCount === 2 && previews.length === 1 && (
           <div className="mt-4 rounded-xl bg-amber-50 border border-amber-100 px-4 py-3">
             <p className="text-xs text-amber-700">
               <strong>사진 1장 업로드됨</strong> — 동일한 사진이 2컷에 자동 배치됩니다.
-              서로 다른 사진 2장을 원하시면 뒤로가서 추가해주세요.
+              서로 다른 사진을 원하시면 뒤로가서 추가해주세요.
             </p>
           </div>
         )}
@@ -215,7 +197,7 @@ export default function CanvasEditor() {
         <div className="mt-6 flex flex-col gap-3">
           <Button
             onClick={() =>
-              navigate("/order/payment", { state: { previews, captions } })
+              navigate("/order/payment", { state: { previews, captions, photoCount } })
             }
             className="w-full"
             aria-label="미리보기 확인 완료, 결제 단계로 이동"

@@ -52,32 +52,35 @@ const LOCAL_STORAGE_KEY = "pospic_confirm_feedback"
 
 const initialItems: ChecklistItem[] = [
   // [A] 회원 주문 플로우
-  { id: 1, section: "A", question: '홈 화면 레이아웃 — "비회원 빠른 시작"과 "회원 로그인/가입" 카드 구성', howTo: "홈 화면('/')", status: "PENDING", feedback: "" },
-  { id: 2, section: "A", question: "로그인 전/후 헤더 전환 — 로그인 후 마이페이지·로그아웃 표시", howTo: "로그인 후 홈 화면", status: "PENDING", feedback: "" },
-  { id: 3, section: "A", question: "이미지 업로드 → 2컷 편집 → 결제 3단계 흐름", howTo: "홈 → [즉시 인쇄하기]", status: "PENDING", feedback: "" },
-  { id: 4, section: "A", question: "포인트 혼합 결제 UI — 슬라이더 + 직접 입력 방식", howTo: "결제 화면('/order/payment')", status: "PENDING", feedback: "" },
-  { id: 5, section: "A", question: "전액 포인트 결제 시 UI — 카드 결제 0원 표시 방식", howTo: "결제 화면 → 슬라이더 최대로 설정", status: "PENDING", feedback: "" },
-  { id: 6, section: "A", question: "영업사원 리워드 10% 안내 문구 위치 및 표현", howTo: "결제 화면 하단 안내 텍스트", status: "PENDING", feedback: "" },
-  { id: 7, section: "A", question: "주문 완료 화면 메시지 및 버튼 구성", howTo: "결제 → [결제하기] 클릭", status: "PENDING", feedback: "" },
+  { id: 1,  section: "A", question: '홈 화면 레이아웃 — "비회원 빠른 시작"과 "회원 로그인/가입" 카드 구성', howTo: "홈 화면('/')", status: "PENDING", feedback: "" },
+  { id: 2,  section: "A", question: "로그인 전/후 헤더 전환 — 로그인 후 마이페이지·로그아웃 표시", howTo: "로그인 후 홈 화면", status: "PENDING", feedback: "" },
+  { id: 3,  section: "A", question: "이미지 업로드 → 2컷 편집 → 결제 3단계 흐름", howTo: "홈 → [즉시 인쇄하기]", status: "PENDING", feedback: "" },
+  { id: 4,  section: "A", question: "포인트 혼합 결제 UI — 슬라이더 + 직접 입력 방식", howTo: "결제 화면('/order/payment')", status: "PENDING", feedback: "" },
+  { id: 5,  section: "A", question: "전액 포인트 결제 시 UI — 카드 결제 0원 표시 방식", howTo: "결제 화면 → 슬라이더 최대로 설정", status: "PENDING", feedback: "" },
+  { id: 6,  section: "A", question: "결제 화면에 영업 리워드 안내 없음 확인 ★v3.0 수정 — 노출 제거", howTo: "결제 화면('/order/payment') 전체 스크롤 확인", status: "PENDING", feedback: "" },
+  { id: 7,  section: "A", question: "주문 완료 화면 메시지 및 버튼 구성", howTo: "결제 → [결제하기] 클릭", status: "PENDING", feedback: "" },
 
   // [B] 회원 가입·계정 관리
-  { id: 8, section: "B", question: "사용 가이드 페이지 — 5단계 설명 + FAQ 구성", howTo: "헤더 → [사용 가이드] 클릭", status: "PENDING", feedback: "" },
-  { id: 9, section: "B", question: "회원가입 폼 — 필드 순서 및 필수 항목 구성 (이름·이메일·비밀번호·휴대폰·영업코드)", howTo: "[회원가입] 버튼 클릭", status: "PENDING", feedback: "" },
+  { id: 8,  section: "B", question: "사용 가이드 페이지 — 5단계 설명 + FAQ 구성", howTo: "헤더 → [사용 가이드] 클릭", status: "PENDING", feedback: "" },
+  { id: 9,  section: "B", question: "회원가입 폼 — 이름·이메일·비밀번호·휴대폰 4필드 (영업코드 없음) + 이메일·전화번호 중복 방지 ★v3.0 수정", howTo: "[회원가입] 버튼 클릭", status: "PENDING", feedback: "" },
   { id: 10, section: "B", question: "로그인 2원화 구조 — 회원용('/login') / 운영자용('/admin/login') 분리 화면", howTo: "두 로그인 화면 비교", status: "PENDING", feedback: "" },
   { id: 11, section: "B", question: "아이디·비밀번호 찾기 화면 흐름 및 결과 표시 방식", howTo: "로그인 화면 → 아이디 찾기", status: "PENDING", feedback: "" },
   { id: 12, section: "B", question: "마이페이지 — 포인트 잔액 + 포인트 내역 + 주문 내역 탭 구성", howTo: "로그인 후 [마이페이지]", status: "PENDING", feedback: "" },
+  { id: 28, section: "B", question: "비회원 주문번호 조회 화면 — 주문번호 입력 → 출력 상태 표시 ★v3.1 신규", howTo: "DemoNavigator → [비회원 주문 조회]  데모번호: ORD-20260618-001", status: "PENDING", feedback: "" },
 
   // [C] 어드민 포털 (본사)
   { id: 13, section: "C", question: "주문 현황판 — 주문 목록 테이블 및 상태 뱃지 레이아웃", howTo: "어드민 로그인 → 주문 현황판", status: "PENDING", feedback: "" },
   { id: 14, section: "C", question: "포인트 원장 — 회원 포인트 탭 / 영업 리워드 탭 구분 및 '미회수🔴' 표시", howTo: "어드민 → 포인트 원장", status: "PENDING", feedback: "" },
-  { id: 15, section: "C", question: "영업사원 관리 — 카드 UI 및 QR 미리보기 UX", howTo: "어드민 → 영업사원 관리", status: "PENDING", feedback: "" },
-  { id: 16, section: "C", question: "가맹점 관리 — 가맹점 등록 + 담당 영업사원 연결 화면", howTo: "어드민 → 가맹점 관리", status: "PENDING", feedback: "" },
+  { id: 15, section: "C", question: "영업사원 관리 — QR 미리보기(어드민 전용 배지) + PNG 다운로드 + QR 재생성 버튼 ★v3.0 수정", howTo: "어드민 → 영업사원 관리 → QR 버튼 클릭", status: "PENDING", feedback: "" },
+  { id: 16, section: "C", question: "가맹점 관리 — 테이블 수 표시 + 입장 QR 다운로드 + 테이블 QR ZIP + QR 재생성 ★v3.0 수정", howTo: "어드민 → 가맹점 관리 → QR 코드 관리 영역 확인", status: "PENDING", feedback: "" },
+  { id: 29, section: "C", question: "시스템 설정 — 단가 카드 + 영업 리워드율(%) 카드 + 포인트 유효기간 카드 ★v3.1 신규", howTo: "어드민 → 시스템 설정 → 카드 3개 확인", status: "PENDING", feedback: "" },
 
   // [D] 점주 포털
   { id: 17, section: "D", question: "오늘 출력현황 — 통계 카드 + 주문 목록 레이아웃", howTo: "STORE001 로그인", status: "PENDING", feedback: "" },
+  { id: 30, section: "D", question: "매출 내역 — 1·2·3개월 기간 선택 + 월별 매출·주문 수·카드 결제액 ★v3.1 신규", howTo: "STORE001 로그인 → 사이드바 [매출 내역]", status: "PENDING", feedback: "" },
 
   // [E] 영업사원 포털
-  { id: 18, section: "E", question: "매출 대시보드 — 연결 회원 수, 리워드 잔액, 이번달 매출 카드", howTo: "SALES001 로그인", status: "PENDING", feedback: "" },
+  { id: 18, section: "E", question: "매출 대시보드 — 담당 가맹점 수, 리워드 잔액, 누적 리워드 카드 ★v3.0 수정: '연결 회원 → 담당 가맹점'", howTo: "SALES001 로그인", status: "PENDING", feedback: "" },
   { id: 19, section: "E", question: "리워드 내역 — 적립/회수 내역 목록 및 상태 뱃지", howTo: "영업사원 포털 → 리워드 내역", status: "PENDING", feedback: "" },
 
   // [F] 공통 디자인
@@ -85,23 +88,29 @@ const initialItems: ChecklistItem[] = [
   { id: 21, section: "F", question: "모바일에서의 사용성 — 버튼 크기, 글자 크기, 레이아웃", howTo: "스마트폰으로 접속 테스트", status: "PENDING", feedback: "" },
 
   // [G] 정책 확인
-  { id: 22, section: "G", question: "가입 즉시 3,000P 지급 정책 확인", howTo: "가입 완료 화면 + 마이페이지 잔액 확인", status: "PENDING", feedback: "" },
-  { id: 23, section: "G", question: "리워드 계산 정책 확인 — 카드 결제액의 10%, 전액 포인트 결제 시 0P", howTo: "결제 화면 안내 문구 확인", status: "PENDING", feedback: "" },
+  { id: 22, section: "G", question: "가입 즉시 포인트 지급 없음 확인 ★v3.2 수정 — 3,000P 웰컴 보너스 폐지", howTo: "가입 완료 화면 + 마이페이지 잔액 확인 (잔액 0P)", status: "PENDING", feedback: "" },
+  { id: 23, section: "G", question: "리워드 계산 정책 — 카드 결제액의 1%, 전액 포인트 결제 시 0P ★v3.0 수정: 10% → 1%", howTo: "어드민 시스템 설정 → 리워드율 카드 확인", status: "PENDING", feedback: "" },
+  { id: 33, section: "G", question: "출력 적립 포인트 확인 — 출력 금액의 1% 자동 적립, 결제·완료 화면 적립 안내 표시 ★v3.2 신규", howTo: "결제 화면 → 선물 아이콘 적립 안내 확인 → 완료 화면 → '적립 완료' 메시지 확인", status: "PENDING", feedback: "" },
+  { id: 34, section: "G", question: "사진 1장/2장 선택 UI — UploadStep 상단 버튼 + 선택에 따른 가격 표시 ★v3.2 신규", howTo: "업로드 화면('/order/upload') → 1장(500원)/2장(1,000원) 버튼 확인", status: "PENDING", feedback: "" },
+  { id: 35, section: "G", question: "기본 단가 500원 확인 — 결제 화면 금액 표시 ★v3.2 수정: 1,500원 → 500원", howTo: "업로드에서 2장 선택 → 결제 화면 1,000원 표시 확인", status: "PENDING", feedback: "" },
 
   // [H] 권한·보안 UX 확인
   { id: 24, section: "H", question: "잘못된 운영자 코드 입력 시 에러 처리", howTo: "'/admin/login' → 'ABC123' 입력 → 에러 메시지 확인", status: "PENDING", feedback: "" },
   { id: 25, section: "H", question: "역할 접근 차단 — 권한 없는 페이지 직접 접근 시 로그인 화면 이동", howTo: "SALES001 로그인 후 주소창에 '/admin/orders' 직접 입력", status: "PENDING", feedback: "" },
-  { id: 26, section: "H", question: "점주 MVP 범위 확인 — 환불 처리·기간별 매출·엑셀 다운로드 미제공 (어드민 처리)", howTo: "STORE001 포털 전체 확인", status: "PENDING", feedback: "" },
+  { id: 26, section: "H", question: "점주 환불 처리 기능 확인 — 출력완료 주문에 [환불] 버튼 노출 ★v3.2 수정", howTo: "STORE001 포털 → 출력현황 → PRINT_SUCCESS 주문 → [환불] 버튼 클릭", status: "PENDING", feedback: "" },
   { id: 27, section: "H", question: "엑셀 다운로드 범위 확인 — 어드민 원장만 제공, 점주·영업사원 미제공", howTo: "어드민 포인트 원장 → [엑셀 내보내기] (Phase 0: 준비중)", status: "PENDING", feedback: "" },
+  { id: 31, section: "H", question: "QR 코드 생성·관리 어드민 전용 확인 — 영업사원·점주 포털에서 QR 생성 불가 ★v3.0 정책", howTo: "영업사원·점주 포털 전체 탐색 후 QR 생성 메뉴 없음 확인", status: "PENDING", feedback: "" },
+  { id: 32, section: "H", question: "회원가입 중복 방지 — 기존 이메일 입력 시 인라인 에러 표시 확인 ★v3.0 신규", howTo: "회원가입 → test@test.com 입력 후 다른 필드 클릭", status: "PENDING", feedback: "" },
 ]
 
+// v3.0에서 클라이언트 컨펌 완료 — 확정된 선택지가 pre-populated
 const initialPolicies: UnconfirmedPolicy[] = [
-  { id: "23-1", title: "점주 포털 기능 범위", optionA: "MVP: 오늘 현황만 제공", optionB: "기간별 매출 통계 추가 제공", selected: null },
-  { id: "23-2", title: "영업사원 리워드 출금 방식", optionA: "관리자가 수동 처리", optionB: "자동 계좌이체 (Phase 2)", selected: null },
-  { id: "23-3", title: "포인트 유효기간", optionA: "무제한", optionB: "가입 후 N개월 제한", selected: null },
-  { id: "23-4", title: "비회원 주문 내역 조회", optionA: "제공 안 함", optionB: "주문번호로 조회 가능", selected: null },
-  { id: "23-5", title: "매장별 단가 차등", optionA: "전국 단일가 정책", optionB: "매장별 차등 설정 가능", selected: null },
-  { id: "23-6", title: "고객 직접 환불 신청", optionA: "관리자가 수동 처리", optionB: "앱에서 직접 신청 버튼 제공", selected: null },
+  { id: "23-1", title: "점주 포털 기능 범위", optionA: "MVP: 오늘 현황만 제공", optionB: "기간별 매출 통계 추가 제공", selected: "B" },
+  { id: "23-2", title: "영업사원 리워드 출금 방식", optionA: "관리자가 수동 처리", optionB: "자동 계좌이체 (Phase 2)", selected: "A" },
+  { id: "23-3", title: "포인트 유효기간", optionA: "무제한", optionB: "가입 후 N개월 제한", selected: "A" },
+  { id: "23-4", title: "비회원 주문 내역 조회", optionA: "제공 안 함", optionB: "주문번호로 조회 가능", selected: "B" },
+  { id: "23-5", title: "매장별 단가 차등", optionA: "전국 단일가 정책", optionB: "매장별 차등 설정 가능", selected: "B" },
+  { id: "23-6", title: "환불 처리 권한 (v3.2 업데이트)", optionA: "관리자 + 점주 모두 처리 가능", optionB: "관리자만 처리", selected: "A" },
 ]
 
 export default function ConfirmGuide() {
@@ -414,8 +423,8 @@ export default function ConfirmGuide() {
               <p className="text-sm text-gray-500 mt-1">프로토타입 화면 구성 및 UX 흐름 검토 페이지</p>
             </div>
             <div className="text-right sm:text-right">
-              <span className="text-xs text-gray-400 block">작성일: 2026-06-20</span>
-              <span className="text-xs font-medium text-gray-500 mt-1 inline-block">작성 기준: claude_plan.md v2.8</span>
+              <span className="text-xs text-gray-400 block">최초 작성: 2026-06-20 | v3.2 업데이트: 2026-07-01</span>
+              <span className="text-xs font-medium text-gray-500 mt-1 inline-block">작성 기준: claude_plan.md v3.2</span>
             </div>
           </div>
 
@@ -492,25 +501,43 @@ export default function ConfirmGuide() {
             </div>
             <div className="space-y-2.5">
               <div className="p-3 bg-gray-50 rounded-xl">
-                <p className="font-bold text-gray-800 mb-1">🏢 3. 본사 어드민 포털 (약 5분)</p>
+                <p className="font-bold text-gray-800 mb-1">🏢 3. 본사 어드민 포털 (약 7분)</p>
                 <p className="text-gray-500 mb-1.5 font-sans">운영자 로그인 → <code className="bg-white px-1 border rounded text-gray-700">ADMIN001</code> 입력</p>
                 <div className="flex flex-wrap items-center gap-1 text-[11px] text-gray-600 font-mono">
                   <span>주문 현황판</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
                   <span>포인트 원장</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
-                  <span>영업사원 관리</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
-                  <span>가맹점 관리</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
-                  <span>시스템 설정</span>
+                  <span>영업사원 관리(QR)</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
+                  <span>가맹점 관리(QR)</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
+                  <span>시스템 설정(리워드율)</span>
                 </div>
               </div>
               <div className="p-3 bg-gray-50 rounded-xl">
-                <p className="font-bold text-gray-800 mb-1">🏬 4. 점주 & 영업사원 포털 (약 4분)</p>
+                <p className="font-bold text-gray-800 mb-1">🏬 4. 점주 포털 (약 3분)</p>
                 <p className="text-gray-500 mb-1.5 font-sans">
-                  점주: <code className="bg-white px-1 border rounded text-gray-700">STORE001</code> / 영업사원: <code className="bg-white px-1 border rounded text-gray-700">SALES001</code>
+                  점주: <code className="bg-white px-1 border rounded text-gray-700">STORE001</code>
                 </p>
                 <div className="flex flex-wrap items-center gap-1 text-[11px] text-gray-600 font-mono">
-                  <span>점주: 오늘 출력현황</span> <span className="text-gray-300">|</span>
-                  <span>영업: 매출 대시보드</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
+                  <span>출력현황</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
+                  <span>매출 내역(기간 선택)</span>
+                </div>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-xl">
+                <p className="font-bold text-gray-800 mb-1">💼 5. 영업사원 포털 (약 2분)</p>
+                <p className="text-gray-500 mb-1.5 font-sans">
+                  영업사원: <code className="bg-white px-1 border rounded text-gray-700">SALES001</code>
+                </p>
+                <div className="flex flex-wrap items-center gap-1 text-[11px] text-gray-600 font-mono">
+                  <span>매출 대시보드(담당 가맹점)</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
                   <span>리워드 내역</span>
+                </div>
+              </div>
+              <div className="p-3 bg-gray-50 rounded-xl">
+                <p className="font-bold text-gray-800 mb-1">🔍 6. 비회원 주문 조회 (약 1분)</p>
+                <p className="text-gray-500 mb-1.5 font-sans">DemoNavigator → [비회원 주문 조회]</p>
+                <div className="flex flex-wrap items-center gap-1 text-[11px] text-gray-600 font-mono">
+                  <span>주문번호 입력</span> <ChevronRight className="h-3 w-3 inline text-gray-400" />
+                  <span>상태 확인</span>
+                  <span className="text-gray-400 ml-1">(ORD-20260618-001)</span>
                 </div>
               </div>
             </div>
@@ -521,7 +548,7 @@ export default function ConfirmGuide() {
         <div className="space-y-6">
           <div className="flex items-center gap-2">
             <CheckCircle2 className="h-5 w-5 text-indigo-600" />
-            <h2 className="text-lg font-extrabold text-gray-900">검토 항목 및 결과 선택 (27문항)</h2>
+            <h2 className="text-lg font-extrabold text-gray-900">검토 항목 및 결과 선택 (37문항 · v3.2)</h2>
           </div>
 
           {Object.keys(sectionTitles).map((secCode) => {
@@ -612,12 +639,15 @@ export default function ConfirmGuide() {
 
         {/* 미확정 항목 선택 피드백 (정책 확인) */}
         <div className="bg-white border border-gray-100 rounded-3xl shadow-sm overflow-hidden p-6 space-y-6">
-          <div className="flex items-center gap-2 border-b border-gray-100 pb-4">
-            <FileText className="h-5 w-5 text-indigo-600" />
-            <div>
-              <h3 className="font-extrabold text-gray-900 text-base">미확정 정책 항목 (6가지)</h3>
-              <p className="text-xs text-gray-400 mt-0.5">상세 비즈니스 정책 방향을 선택해 주세요.</p>
+          <div className="flex items-center justify-between border-b border-gray-100 pb-4 gap-4">
+            <div className="flex items-center gap-2">
+              <FileText className="h-5 w-5 text-indigo-600" />
+              <div>
+                <h3 className="font-extrabold text-gray-900 text-base">정책 컨펌 확인 (6가지 · v3.2 업데이트)</h3>
+                <p className="text-xs text-gray-400 mt-0.5">v3.0에서 확정된 선택지 + v3.2 환불 권한 업데이트. 변경이 필요하면 다른 옵션을 눌러주세요.</p>
+              </div>
             </div>
+            <span className="flex-shrink-0 text-xs bg-emerald-100 text-emerald-700 font-bold px-2.5 py-1 rounded-full">전항목 확정</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

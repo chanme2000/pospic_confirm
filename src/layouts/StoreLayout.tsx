@@ -1,5 +1,5 @@
 import { Outlet, NavLink, Link, useNavigate } from "react-router-dom"
-import { LayoutDashboard, LogOut } from "lucide-react"
+import { LayoutDashboard, BarChart2, LogOut } from "lucide-react"
 import { PospicLogo } from "@/components/PospicLogo"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
@@ -9,6 +9,7 @@ const STORE_NAME = "강남점"
 
 const NAV_ITEMS = [
   { to: "/store/orders", label: "출력현황", icon: LayoutDashboard },
+  { to: "/store/history", label: "매출 내역", icon: BarChart2 },
 ]
 
 export default function StoreLayout() {

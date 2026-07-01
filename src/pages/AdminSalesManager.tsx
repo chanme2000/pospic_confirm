@@ -1,5 +1,5 @@
 import { toast } from "sonner"
-import { Plus, QrCode, Download, Users, Wallet, Award } from "lucide-react"
+import { Plus, QrCode, Download, Store, Wallet, Award, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -8,7 +8,6 @@ import { mockSalesList, mockSalesLedger, LEDGER_TYPE_LABEL } from "@/mocks"
 function QRModal({ name, code }: { name: string; code: string }) {
   return (
     <div className="flex flex-col items-center gap-4 py-2">
-      {/* QR placeholder */}
       <div
         className="w-40 h-40 bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-2"
         aria-label={`${name} 영업사원 QR 코드 미리보기 영역`}
@@ -18,9 +17,9 @@ function QRModal({ name, code }: { name: string; code: string }) {
       </div>
       <div className="text-center">
         <p className="text-sm font-semibold text-gray-900">{name}</p>
-        <p className="text-xs text-gray-500 mt-0.5">코드: {code}</p>
-        <p className="text-xs text-gray-400 mt-1">
-          가입 URL: pospic.app/signup?ref={code}
+        <p className="text-xs text-gray-500 mt-0.5">영업 코드: {code}</p>
+        <p className="text-xs text-gray-400 mt-1 bg-gray-50 rounded px-2 py-1 font-mono">
+          어드민 전용 생성 QR
         </p>
       </div>
     </div>
@@ -94,18 +93,26 @@ export default function AdminSalesManager() {
                     variant="outline"
                     size="sm"
                     onClick={() => handleQRPreview(sales.name, sales.sales_code)}
-                    aria-label={`${sales.name} QR 코드 미리보기`}
+                    aria-label={`${sales.name} 영업사원 QR 미리보기`}
                   >
                     <QrCode className="h-3.5 w-3.5" aria-hidden="true" />
-                    QR 보기
+                    QR
                   </Button>
                   <Button
                     variant="ghost"
                     size="sm"
                     onClick={handleDownload}
-                    aria-label={`${sales.name} QR 코드 PNG 다운로드`}
+                    aria-label={`${sales.name} 영업사원 QR PNG 다운로드`}
                   >
                     <Download className="h-3.5 w-3.5" aria-hidden="true" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => toast.info("준비 중인 기능입니다", { description: "QR 재생성 기능이 곧 추가됩니다" })}
+                    aria-label={`${sales.name} 영업사원 QR 재생성`}
+                  >
+                    <RefreshCw className="h-3.5 w-3.5" aria-hidden="true" />
                   </Button>
                 </div>
               </div>
@@ -114,10 +121,10 @@ export default function AdminSalesManager() {
               <dl className="grid grid-cols-3 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-2.5 text-center">
                   <dt className="text-xs text-gray-400 flex items-center justify-center gap-1 mb-1">
-                    <Users className="h-3 w-3" aria-hidden="true" />
-                    연결 회원
+                    <Store className="h-3 w-3" aria-hidden="true" />
+                    담당 가맹점
                   </dt>
-                  <dd className="text-base font-bold text-gray-900">{sales.linked_users}명</dd>
+                  <dd className="text-base font-bold text-gray-900">{sales.linked_stores}곳</dd>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-2.5 text-center">
                   <dt className="text-xs text-gray-400 flex items-center justify-center gap-1 mb-1">

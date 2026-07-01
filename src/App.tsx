@@ -34,6 +34,8 @@ import AdminSettings from "@/pages/AdminSettings"
 import AdminStoreManager from "@/pages/AdminStoreManager"
 import StoreLayout from "@/layouts/StoreLayout"
 import StoreOrders from "@/pages/StoreOrders"
+import StoreHistory from "@/pages/StoreHistory"
+import OrderLookup from "@/pages/OrderLookup"
 import SalesPortalLayout from "@/layouts/SalesPortalLayout"
 import SalesDashboard from "@/pages/SalesDashboard"
 import SalesRewards from "@/pages/SalesRewards"
@@ -71,7 +73,11 @@ export default function App() {
         >
           <Route index element={<Navigate to="/store/orders" replace />} />
           <Route path="orders" element={<StoreOrders />} />
+          <Route path="history" element={<StoreHistory />} />
         </Route>
+
+        {/* 비회원 주문 조회 */}
+        <Route path="/order/lookup" element={<OrderLookup />} />
 
         {/* 영업사원 포털 (SALES) */}
         <Route

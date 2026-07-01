@@ -17,6 +17,7 @@ const GROUPS = [
       { label: "아이디·비밀번호 찾기", path: "/find-account" },
       { label: "마이페이지", path: "/mypage" },
       { label: "사진 업로드 → 편집 → 결제", path: "/order/upload" },
+      { label: "비회원 주문 조회", path: "/order/lookup" },
     ],
   },
   {
@@ -35,6 +36,7 @@ const GROUPS = [
     badge: "STORE001",
     routes: [
       { label: "출력 현황", path: "/store/orders" },
+      { label: "매출 내역", path: "/store/history" },
     ],
   },
   {
