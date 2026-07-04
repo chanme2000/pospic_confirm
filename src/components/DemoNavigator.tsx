@@ -24,10 +24,13 @@ const GROUPS = [
     label: "어드민",
     badge: "ADMIN001",
     routes: [
+      { label: "운영 대시보드", path: "/admin/dashboard" },
       { label: "주문 현황", path: "/admin/orders" },
       { label: "포인트 원장", path: "/admin/ledger" },
+      { label: "회원 관리", path: "/admin/users" },
       { label: "영업 관리", path: "/admin/sales" },
       { label: "가맹점 관리", path: "/admin/stores" },
+      { label: "감사 로그", path: "/admin/audit-log" },
       { label: "시스템 설정", path: "/admin/settings" },
     ],
   },

@@ -1,9 +1,12 @@
+import { useState } from "react"
 import { toast } from "sonner"
 import { Plus, QrCode, Download, Store, Wallet, Award, RefreshCw } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { mockSalesList, mockSalesLedger, LEDGER_TYPE_LABEL } from "@/mocks"
+import { AccountStatusBadge } from "@/components/AccountStatusBadge"
+import { StatusChangeMenu } from "@/components/StatusChangeMenu"
+import { mockSalesList, mockSalesLedger, LEDGER_TYPE_LABEL, ACCOUNT_STATUS_LABEL, logAuditEntry } from "@/mocks"
 
 function QRModal({ name, code }: { name: string; code: string }) {
   return (
@@ -27,6 +30,29 @@ function QRModal({ name, code }: { name: string; code: string }) {
 }
 
 export default function AdminSalesManager() {
+  const [salesList, setSalesList] = useState(mockSalesList)
+
+  function handleStatusChange(salesId: string, name: string, nextStatus: string) {
+    const prevStatus = salesList.find((s) => s.id === salesId)?.status ?? "ACTIVE"
+    const salesCode = salesList.find((s) => s.id === salesId)?.sales_code ?? ""
+    setSalesList((prev) =>
+      prev.map((s) => (s.id === salesId ? { ...s, status: nextStatus } : s))
+    )
+    logAuditEntry({
+      actor_type: "ADMIN",
+      actor_name: "본사 관리자",
+      action: "ACCOUNT_STATUS_CHANGE",
+      target_type: "Sales",
+      target_label: `${name}(${salesCode})`,
+      before_value: prevStatus,
+      after_value: nextStatus,
+      memo: null,
+    })
+    toast.success(`${name} 계정 상태가 변경되었습니다`, {
+      description: `${ACCOUNT_STATUS_LABEL[nextStatus]}(으)로 전환 · 감사 로그에 기록되었습니다`,
+    })
+  }
+
   function handleAddSales() {
     toast.info("준비 중인 기능입니다", {
       description: "영업사원 등록 기능이 곧 추가됩니다",
@@ -75,17 +101,25 @@ export default function AdminSalesManager() {
       </div>
 
       <div className="space-y-4" role="list" aria-label="영업사원 목록">
-        {mockSalesList.map((sales) => (
+        {salesList.map((sales) => (
           <Card key={sales.id} role="listitem" aria-label={`영업사원 ${sales.name}`}>
             <CardContent className="p-5">
               {/* Header */}
               <div className="flex items-start justify-between gap-3 mb-4">
                 <div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <h3 className="text-base font-bold text-gray-900">{sales.name}</h3>
                     <Badge variant="secondary" aria-label={`영업 코드: ${sales.sales_code}`}>
                       {sales.sales_code}
                     </Badge>
+                    <AccountStatusBadge status={sales.status} />
+                  </div>
+                  <div className="mt-1.5">
+                    <StatusChangeMenu
+                      status={sales.status}
+                      targetLabel={sales.name}
+                      onChange={(next) => handleStatusChange(sales.id, sales.name, next)}
+                    />
                   </div>
                 </div>
                 <div className="flex gap-2 flex-shrink-0">

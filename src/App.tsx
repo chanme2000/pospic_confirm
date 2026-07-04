@@ -27,11 +27,14 @@ import CompleteStep from "@/pages/CompleteStep"
 import MyPage from "@/pages/MyPage"
 import AdminLogin from "@/pages/AdminLogin"
 import AdminLayout from "@/layouts/AdminLayout"
+import AdminDashboard from "@/pages/AdminDashboard"
 import AdminOrders from "@/pages/AdminOrders"
 import AdminPointLedger from "@/pages/AdminPointLedger"
+import AdminUserManager from "@/pages/AdminUserManager"
 import AdminSalesManager from "@/pages/AdminSalesManager"
 import AdminSettings from "@/pages/AdminSettings"
 import AdminStoreManager from "@/pages/AdminStoreManager"
+import AdminAuditLog from "@/pages/AdminAuditLog"
 import StoreLayout from "@/layouts/StoreLayout"
 import StoreOrders from "@/pages/StoreOrders"
 import StoreHistory from "@/pages/StoreHistory"
@@ -105,11 +108,14 @@ export default function App() {
             </ProtectedRoute>
           }
         >
-          <Route index element={<Navigate to="/admin/orders" replace />} />
+          <Route index element={<Navigate to="/admin/dashboard" replace />} />
+          <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="orders" element={<AdminOrders />} />
           <Route path="ledger" element={<AdminPointLedger />} />
+          <Route path="users" element={<AdminUserManager />} />
           <Route path="sales" element={<AdminSalesManager />} />
           <Route path="stores" element={<AdminStoreManager />} />
+          <Route path="audit-log" element={<AdminAuditLog />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
 

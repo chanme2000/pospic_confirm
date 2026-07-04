@@ -2,21 +2,27 @@ import { Link, NavLink, Outlet, useNavigate } from "react-router-dom"
 import { toast } from "sonner"
 import {
   LayoutDashboard,
+  ShoppingCart,
   BookOpen,
   Users,
+  UserCog,
   Settings,
   Store,
+  ShieldCheck,
   LogOut,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/AuthContext"
 
 const NAV_ITEMS = [
-  { to: "/admin/orders",   label: "주문 현황",  icon: LayoutDashboard },
-  { to: "/admin/ledger",   label: "포인트 원장", icon: BookOpen },
-  { to: "/admin/sales",    label: "영업 관리",   icon: Users },
-  { to: "/admin/stores",   label: "가맹점 관리",  icon: Store },
-  { to: "/admin/settings", label: "설정",        icon: Settings },
+  { to: "/admin/dashboard",  label: "운영 대시보드", icon: LayoutDashboard },
+  { to: "/admin/orders",     label: "주문 현황",    icon: ShoppingCart },
+  { to: "/admin/ledger",     label: "포인트 원장",   icon: BookOpen },
+  { to: "/admin/users",      label: "회원 관리",     icon: UserCog },
+  { to: "/admin/sales",      label: "영업 관리",     icon: Users },
+  { to: "/admin/stores",     label: "가맹점 관리",    icon: Store },
+  { to: "/admin/audit-log",  label: "감사 로그",     icon: ShieldCheck },
+  { to: "/admin/settings",   label: "설정",         icon: Settings },
 ]
 
 export default function AdminLayout() {
@@ -118,9 +124,9 @@ export default function AdminLayout() {
         className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40"
         aria-label="모바일 하단 탭"
       >
-        <ul className="flex" role="list">
+        <ul className="flex overflow-x-auto" role="list">
           {NAV_ITEMS.map(({ to, label, icon: Icon }) => (
-            <li key={to} className="flex-1">
+            <li key={to} className="flex-shrink-0 w-20">
               <NavLink
                 to={to}
                 className={({ isActive }) =>
@@ -134,7 +140,7 @@ export default function AdminLayout() {
                 aria-label={label}
               >
                 <Icon className="h-5 w-5" aria-hidden="true" />
-                <span>{label}</span>
+                <span className="text-center leading-tight">{label}</span>
               </NavLink>
             </li>
           ))}

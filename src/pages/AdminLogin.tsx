@@ -36,7 +36,7 @@ export default function AdminLogin() {
       } else if (code.startsWith("ADMIN")) {
         login({ name: "관리자", email: `${code}@pospic.com`, role: "ADMIN" })
         toast.success("관리자 포털로 이동합니다")
-        navigate("/admin/orders")
+        navigate("/admin/dashboard")
       } else {
         toast.error("올바르지 않은 운영자 코드입니다", {
           description: "본사에서 발급받은 SALES* · STORE* · ADMIN* 형식의 코드를 입력하세요",

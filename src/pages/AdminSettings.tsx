@@ -4,7 +4,7 @@ import { Save, Calculator, Percent, Clock } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { mockSystemSettings } from "@/mocks"
+import { mockSystemSettings, logAuditEntry } from "@/mocks"
 
 export default function AdminSettings() {
   const [pricePerSheet, setPricePerSheet] = useState(mockSystemSettings.price_per_sheet)
@@ -14,6 +14,18 @@ export default function AdminSettings() {
 
   function handleSavePrice(e: React.FormEvent) {
     e.preventDefault()
+    const before = mockSystemSettings.price_per_sheet
+    logAuditEntry({
+      actor_type: "ADMIN",
+      actor_name: "본사 관리자",
+      action: "PRICE_CHANGE",
+      target_type: "SystemSettings",
+      target_label: "price_per_sheet (전역)",
+      before_value: `${before.toLocaleString()}원`,
+      after_value: `${pricePerSheet.toLocaleString()}원`,
+      memo: null,
+    })
+    mockSystemSettings.price_per_sheet = pricePerSheet
     toast.success("단가 설정이 저장되었습니다", {
       description: `장당 단가: ${pricePerSheet.toLocaleString()}원`,
     })
@@ -21,6 +33,21 @@ export default function AdminSettings() {
 
   function handleSaveReward(e: React.FormEvent) {
     e.preventDefault()
+    if (rewardRate !== mockSystemSettings.reward_rate) {
+      logAuditEntry({
+        actor_type: "ADMIN",
+        actor_name: "본사 관리자",
+        action: "REWARD_RATE_CHANGE",
+        target_type: "SystemSettings",
+        target_label: "reward_rate (영업사원 리워드율)",
+        before_value: `${mockSystemSettings.reward_rate}%`,
+        after_value: `${rewardRate}%`,
+        memo: null,
+      })
+    }
+    mockSystemSettings.reward_rate = rewardRate
+    mockSystemSettings.user_print_reward_rate = userPrintRewardRate
+    mockSystemSettings.point_validity_months = pointValidityMonths
     toast.success("리워드 및 적립 설정이 저장되었습니다", {
       description: `영업 리워드율: ${rewardRate}% / 사용자 출력 적립율: ${userPrintRewardRate}% / 포인트 유효기간: ${pointValidityMonths === 0 ? "무기한" : `${pointValidityMonths}개월`}`,
     })

@@ -1,11 +1,17 @@
+import { useState } from "react"
 import { toast } from "sonner"
-import { Plus, MapPin, User, Link2, Link2Off, QrCode, Download, Archive, RefreshCw } from "lucide-react"
+import { Plus, MapPin, User, Link2, Link2Off, QrCode, Download, Archive, RefreshCw, Coins } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { mockStoreList } from "@/mocks"
+import { AccountStatusBadge } from "@/components/AccountStatusBadge"
+import { StatusChangeMenu } from "@/components/StatusChangeMenu"
+import { mockStoreList, mockSalesList, mockSystemSettings, ACCOUNT_STATUS_LABEL, logAuditEntry } from "@/mocks"
 
 export default function AdminStoreManager() {
+  const [storeList, setStoreList] = useState(mockStoreList)
+  const [reassigningId, setReassigningId] = useState<string | null>(null)
+
   function handleAddStore() {
     toast.info("준비 중인 기능입니다", {
       description: "가맹점 등록 기능이 곧 추가됩니다",
@@ -15,6 +21,62 @@ export default function AdminStoreManager() {
   function handleEdit(name: string) {
     toast.info("준비 중인 기능입니다", {
       description: `${name} 수정 기능이 곧 추가됩니다`,
+    })
+  }
+
+  function handleStatusChange(storeId: string, name: string, nextStatus: string) {
+    const prevStatus = storeList.find((s) => s.id === storeId)?.status ?? "ACTIVE"
+    setStoreList((prev) =>
+      prev.map((s) => (s.id === storeId ? { ...s, status: nextStatus } : s))
+    )
+    logAuditEntry({
+      actor_type: "ADMIN",
+      actor_name: "본사 관리자",
+      action: "ACCOUNT_STATUS_CHANGE",
+      target_type: "Store",
+      target_label: name,
+      before_value: prevStatus,
+      after_value: nextStatus,
+      memo: null,
+    })
+    toast.success(`${name} 상태가 변경되었습니다`, {
+      description: `${ACCOUNT_STATUS_LABEL[nextStatus]}(으)로 전환 · 상태가 ACTIVE가 아니면 점주 로그인도 차단됩니다`,
+    })
+  }
+
+  function handleReassign(storeId: string, storeName: string, newSalesId: string) {
+    const newSales = mockSalesList.find((s) => s.id === newSalesId)
+    const prevStore = storeList.find((s) => s.id === storeId)
+    const prevSalesName = prevStore?.sales_name
+      ? `${prevStore.sales_name}(${prevStore.sales_code})`
+      : "미배정"
+    const newSalesLabel = newSales ? `${newSales.name}(${newSales.sales_code})` : "미배정"
+
+    setStoreList((prev) =>
+      prev.map((s) =>
+        s.id === storeId
+          ? {
+              ...s,
+              sales_id: newSales?.id ?? null,
+              sales_name: newSales?.name ?? null,
+              sales_code: newSales?.sales_code ?? null,
+            }
+          : s
+      )
+    )
+    setReassigningId(null)
+    logAuditEntry({
+      actor_type: "ADMIN",
+      actor_name: "본사 관리자",
+      action: "SALES_REASSIGN",
+      target_type: "Store",
+      target_label: storeName,
+      before_value: prevSalesName,
+      after_value: newSalesLabel,
+      memo: null,
+    })
+    toast.success(`${storeName} 담당 영업사원이 변경되었습니다`, {
+      description: `${prevSalesName} → ${newSalesLabel} · 감사 로그(SALES_REASSIGN)에 기록되었습니다`,
     })
   }
 
@@ -65,7 +127,7 @@ export default function AdminStoreManager() {
         <Card>
           <CardContent className="p-4 text-center">
             <p className="text-2xl font-bold text-indigo-600">
-              {mockStoreList.filter((s) => s.sales_id).length}
+              {storeList.filter((s) => s.sales_id).length}
             </p>
             <p className="text-xs text-gray-500 mt-0.5">영업사원 연결</p>
           </CardContent>
@@ -74,18 +136,28 @@ export default function AdminStoreManager() {
 
       {/* Store list */}
       <ul className="space-y-4" role="list" aria-label="가맹점 목록">
-        {mockStoreList.map((store) => (
+        {storeList.map((store) => (
           <li key={store.id}>
             <Card>
               <CardContent className="p-5">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3 mb-4">
                   <div>
-                    <h3 className="text-base font-bold text-gray-900">{store.name}</h3>
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <h3 className="text-base font-bold text-gray-900">{store.name}</h3>
+                      <AccountStatusBadge status={store.status} />
+                    </div>
                     <p className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
                       <MapPin className="h-3 w-3 flex-shrink-0" aria-hidden="true" />
                       {store.address}
                     </p>
+                    <div className="mt-1.5">
+                      <StatusChangeMenu
+                        status={store.status}
+                        targetLabel={store.name}
+                        onChange={(next) => handleStatusChange(store.id, store.name, next)}
+                      />
+                    </div>
                   </div>
                   <div className="flex gap-2 flex-shrink-0">
                     <Button
@@ -122,38 +194,72 @@ export default function AdminStoreManager() {
                   </div>
 
                   {/* 담당 영업사원 */}
-                  <div className="bg-gray-50 rounded-lg px-3 py-2.5 flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2 min-w-0">
-                      {store.sales_id ? (
-                        <Link2 className="h-3.5 w-3.5 text-indigo-400 flex-shrink-0" aria-hidden="true" />
-                      ) : (
-                        <Link2Off className="h-3.5 w-3.5 text-gray-300 flex-shrink-0" aria-hidden="true" />
-                      )}
-                      <dt className="text-xs text-gray-400 flex-shrink-0">담당 영업사원</dt>
-                      <dd>
-                        {store.sales_name ? (
-                          <span className="flex items-center gap-1.5">
-                            <span className="text-xs font-medium text-gray-700">{store.sales_name}</span>
-                            <Badge variant="secondary" className="text-xs py-0">
-                              {store.sales_code}
-                            </Badge>
-                          </span>
+                  <div className="bg-gray-50 rounded-lg px-3 py-2.5">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-2 min-w-0">
+                        {store.sales_id ? (
+                          <Link2 className="h-3.5 w-3.5 text-indigo-400 flex-shrink-0" aria-hidden="true" />
                         ) : (
-                          <Badge variant="outline" className="text-xs text-gray-400">
-                            미배정
-                          </Badge>
+                          <Link2Off className="h-3.5 w-3.5 text-gray-300 flex-shrink-0" aria-hidden="true" />
                         )}
-                      </dd>
+                        <dt className="text-xs text-gray-400 flex-shrink-0">담당 영업사원</dt>
+                        <dd>
+                          {store.sales_name ? (
+                            <span className="flex items-center gap-1.5">
+                              <span className="text-xs font-medium text-gray-700">{store.sales_name}</span>
+                              <Badge variant="secondary" className="text-xs py-0">
+                                {store.sales_code}
+                              </Badge>
+                            </span>
+                          ) : (
+                            <Badge variant="outline" className="text-xs text-gray-400">
+                              미배정
+                            </Badge>
+                          )}
+                        </dd>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="text-xs h-7 px-2 text-gray-500 flex-shrink-0"
+                        onClick={() => setReassigningId(reassigningId === store.id ? null : store.id)}
+                        aria-label={`${store.name} 담당 영업사원 재지정`}
+                        aria-expanded={reassigningId === store.id}
+                      >
+                        재지정
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="text-xs h-7 px-2 text-gray-500 flex-shrink-0"
-                      onClick={() => handleEdit(store.name)}
-                      aria-label={`${store.name} 담당 영업사원 변경`}
-                    >
-                      변경
-                    </Button>
+
+                    {reassigningId === store.id && (
+                      <div className="mt-2.5 pt-2.5 border-t border-gray-200 flex items-center gap-2 flex-wrap">
+                        <label htmlFor={`reassign-${store.id}`} className="text-xs text-gray-500 flex-shrink-0">
+                          새 담당자
+                        </label>
+                        <select
+                          id={`reassign-${store.id}`}
+                          defaultValue=""
+                          onChange={(e) => e.target.value && handleReassign(store.id, store.name, e.target.value)}
+                          className="text-xs h-8 rounded-md border border-gray-300 bg-white px-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                        >
+                          <option value="" disabled>영업사원 선택</option>
+                          {mockSalesList
+                            .filter((s) => s.id !== store.sales_id)
+                            .map((s) => (
+                              <option key={s.id} value={s.id}>
+                                {s.name} ({s.sales_code}){s.status !== "ACTIVE" ? ` · ${s.status}` : ""}
+                              </option>
+                            ))}
+                        </select>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="text-xs h-8 px-2 text-gray-400"
+                          onClick={() => setReassigningId(null)}
+                        >
+                          취소
+                        </Button>
+                      </div>
+                    )}
                   </div>
 
                   {/* 테이블 수 */}
@@ -172,6 +278,28 @@ export default function AdminStoreManager() {
                     >
                       변경
                     </Button>
+                  </div>
+
+                  {/* 인화 단가 (v3.4: 점주 직접 설정 여부 표시, 전역 단가에는 영향 없음) */}
+                  <div className="bg-gray-50 rounded-lg px-3 py-2.5 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 min-w-0">
+                      <Coins className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" aria-hidden="true" />
+                      <dt className="text-xs text-gray-400 flex-shrink-0">인화 단가</dt>
+                      <dd className="flex items-center gap-1.5">
+                        <span className="text-xs font-semibold text-gray-700">
+                          {(store.price_per_sheet ?? mockSystemSettings.price_per_sheet).toLocaleString()}원
+                        </span>
+                        {store.price_per_sheet ? (
+                          <Badge variant="blue" className="text-xs py-0" aria-label="점주가 직접 설정한 단가">
+                            점주 설정
+                          </Badge>
+                        ) : (
+                          <Badge variant="outline" className="text-xs py-0 text-gray-400">
+                            전역값 사용
+                          </Badge>
+                        )}
+                      </dd>
+                    </div>
                   </div>
                 </dl>
 
